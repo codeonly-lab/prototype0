@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,25 +9,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4a7c59; /* Forest green */
-            --secondary-color: #8fbc8f; /* Sage green */
-            --accent-color: #f4a460; /* Sandy brown */
-            --light-accent: #ffd700; /* Golden yellow */
-            --text-color: #3e2723; /* Dark brown */
-            --light-bg: #f5f5dc; /* Beige */
+            --primary-color: #4a7c59; 
+            --secondary-color: #8fbc8f; 
+            --accent-color: #f4a460; 
+            --light-accent: #ffd700; 
+            --text-color: #3e2723; 
+            --light-bg: #f5f5dc; 
             --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            --success-color: #66bb6a; /* Mint green */
-            --completed-color: #e8f5e9; /* Light green */
-            --quest-1-color: #66bb6a; /* Mint green */
-            --quest-2-color: #81c784; /* Medium green */
-            --quest-3-color: #4caf50; /* Forest green */
-            --quest-4-color: #8bc34a; /* Lime green */
-            --quest-5-color: #cddc39; /* Olive */
-            --quest-6-color: #ffeb3b; /* Yellow */
-            --quest-7-color: #ffc107; /* Amber */
-            --quest-8-color: #ff9800; /* Orange */
-            --quest-9-color: #795548; /* Brown */
-            --quest-10-color: #5d4037; /* Dark brown */
+            --success-color: #66bb6a;
+            --completed-color: #e8f5e9; 
+            --quest-1-color: #66bb6a; 
+            --quest-2-color: #81c784; 
+            --quest-3-color: #4caf50; 
+            --quest-4-color: #8bc34a; 
+            --quest-5-color: #cddc39; 
+            --quest-6-color: #ffeb3b; 
+            --quest-7-color: #ffc107; 
+            --quest-8-color: #ff9800; 
+            --quest-9-color: #795548;
+            --quest-10-color: #5d4037; 
         }
 
         * {
@@ -199,16 +200,26 @@
             border: 2px solid var(--success-color);
         }
 
-        .quest-1 { border-color: var(--quest-1-color); }
-        .quest-2 { border-color: var(--quest-2-color); }
-        .quest-3 { border-color: var(--quest-3-color); }
-        .quest-4 { border-color: var(--quest-4-color); }
-        .quest-5 { border-color: var(--quest-5-color); }
-        .quest-6 { border-color: var(--quest-6-color); }
-        .quest-7 { border-color: var(--quest-7-color); }
-        .quest-8 { border-color: var(--quest-8-color); }
-        .quest-9 { border-color: var(--quest-9-color); }
-        .quest-10 { border-color: var(--quest-10-color); }
+        .quest-1 { border-color: var(--quest-1-color);
+        }
+        .quest-2 { border-color: var(--quest-2-color);
+        }
+        .quest-3 { border-color: var(--quest-3-color);
+        }
+        .quest-4 { border-color: var(--quest-4-color);
+        }
+        .quest-5 { border-color: var(--quest-5-color);
+        }
+        .quest-6 { border-color: var(--quest-6-color);
+        }
+        .quest-7 { border-color: var(--quest-7-color);
+        }
+        .quest-8 { border-color: var(--quest-8-color);
+        }
+        .quest-9 { border-color: var(--quest-9-color);
+        }
+        .quest-10 { border-color: var(--quest-10-color); 
+        }
 
         .quest-number {
             display: inline-block;
@@ -223,16 +234,26 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .quest-1 .quest-number { background-color: var(--quest-1-color); }
-        .quest-2 .quest-number { background-color: var(--quest-2-color); }
-        .quest-3 .quest-number { background-color: var(--quest-3-color); }
-        .quest-4 .quest-number { background-color: var(--quest-4-color); }
-        .quest-5 .quest-number { background-color: var(--quest-5-color); }
-        .quest-6 .quest-number { background-color: var(--quest-6-color); }
-        .quest-7 .quest-number { background-color: var(--quest-7-color); }
-        .quest-8 .quest-number { background-color: var(--quest-8-color); }
-        .quest-9 .quest-number { background-color: var(--quest-9-color); }
-        .quest-10 .quest-number { background-color: var(--quest-10-color); }
+        .quest-1 .quest-number { background-color: var(--quest-1-color);
+        }
+        .quest-2 .quest-number { background-color: var(--quest-2-color);
+        }
+        .quest-3 .quest-number { background-color: var(--quest-3-color);
+        }
+        .quest-4 .quest-number { background-color: var(--quest-4-color);
+        }
+        .quest-5 .quest-number { background-color: var(--quest-5-color);
+        }
+        .quest-6 .quest-number { background-color: var(--quest-6-color);
+        }
+        .quest-7 .quest-number { background-color: var(--quest-7-color);
+        }
+        .quest-8 .quest-number { background-color: var(--quest-8-color);
+        }
+        .quest-9 .quest-number { background-color: var(--quest-9-color);
+        }
+        .quest-10 .quest-number { background-color: var(--quest-10-color);
+        }
 
         .quest-title {
             font-family: 'Montserrat', sans-weight@500);
@@ -272,16 +293,26 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .quest-1 .quest-button { background-color: var(--quest-1-color); }
-        .quest-2 .quest-button { background-color: var(--quest-2-color); }
-        .quest-3 .quest-button { background-color: var(--quest-3-color); }
-        .quest-4 .quest-button { background-color: var(--quest-4-color); }
-        .quest-5 .quest-button { background-color: var(--quest-5-color); }
-        .quest-6 .quest-button { background-color: var(--quest-6-color); }
-        .quest-7 .quest-button { background-color: var(--quest-7-color); }
-        .quest-8 .quest-button { background-color: var(--quest-8-color); }
-        .quest-9 .quest-button { background-color: var(--quest-9-color); }
-        .quest-10 .quest-button { background-color: var(--quest-10-color); }
+        .quest-1 .quest-button { background-color: var(--quest-1-color);
+        }
+        .quest-2 .quest-button { background-color: var(--quest-2-color);
+        }
+        .quest-3 .quest-button { background-color: var(--quest-3-color);
+        }
+        .quest-4 .quest-button { background-color: var(--quest-4-color);
+        }
+        .quest-5 .quest-button { background-color: var(--quest-5-color);
+        }
+        .quest-6 .quest-button { background-color: var(--quest-6-color);
+        }
+        .quest-7 .quest-button { background-color: var(--quest-7-color);
+        }
+        .quest-8 .quest-button { background-color: var(--quest-8-color);
+        }
+        .quest-9 .quest-button { background-color: var(--quest-9-color);
+        }
+        .quest-10 .quest-button { background-color: var(--quest-10-color);
+        }
 
         .quest-button:hover {
             transform: scale(1.05);
@@ -406,8 +437,10 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0;
+            transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0);
+            }
         }
 
         .modal-button {
@@ -447,7 +480,7 @@
             margin-top: 10px;
         }
 
-        /* Breathing exercise styles */
+       
         .breathing-container {
             display: flex;
             flex-direction: column;
@@ -479,7 +512,7 @@
             color: white;
         }
 
-        /* Mood tracker styles */
+   
         .mood-options {
             display: flex;
             justify-content: space-around;
@@ -517,7 +550,6 @@
             color: var(--text-color);
         }
 
-        /* Audio player styles */
         .audio-player {
             width: 100%;
             margin: 20px 0;
@@ -552,7 +584,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-        /* Affirmations styles */
+    
         .affirmation-container {
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             border-radius: 8px;
@@ -569,7 +601,6 @@
             color: white;
         }
 
-        /* Notification styles */
         .notification {
             position: fixed;
             bottom: 20px;
@@ -608,7 +639,7 @@
             opacity: 1;
         }
 
-        /* Confirmation modal for reset */
+     
         .confirm-modal {
             display: none;
             position: fixed;
@@ -684,7 +715,6 @@
             background-color: #3d6349;
         }
 
-        /* Celebration modal */
         .celebration-modal {
             display: none;
             position: fixed;
@@ -734,139 +764,123 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1);
+            }
+            50% { transform: scale(1.1);
+            }
+            100% { transform: scale(1);
+            }
         }
 
         .celebration-button {
-            background-color: white;
-            color: var(--primary-color);
+            background-color: var(--light-accent);
+            color: var(--text-color);
             border: none;
-            border-radius: 30px;
-            padding: 12px 30px;
+            border-radius: 25px;
+            padding: 10px 20px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin: 5px;
         }
 
         .celebration-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background-color: #fce8a5;
+            transform: translateY(-2px);
         }
 
         .celebration-button.secondary {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--primary-color);
         }
-
-        .celebration-button.secondary:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Confetti canvas */
-        #confetti-canvas {
+        
+        .safety-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 2999;
+            background-color: rgba(176, 0, 32, 0.95);
+            z-index: 4000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: none;
         }
 
-        /* Mobile-specific adjustments */
-        @media (max-width: 480px) {
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .header-right {
-                margin-top: 10px;
-                align-self: stretch;
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .progress-container {
-                justify-content: space-between;
-            }
-            
-            .reset-container {
-                margin-left: 0;
-                align-self: center;
-            }
-            
-            .modal-content {
-                padding: 20px;
-            }
-            
-            .modal-title {
-                font-size: 20px;
-                padding-right: 40px;
-            }
-            
-            .modal-button {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-            
-            .modal-button:last-child {
-                margin-bottom: 0;
-            }
-            
-            .breathing-circle {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .mood-option {
-                width: 30%;
-            }
-            
-            .quest-card {
-                width: 90%;
-                max-width: 300px;
-            }
-            
-            .celebration-content {
-                padding: 30px 20px;
-            }
-            
-            .celebration-title {
-                font-size: 28px;
-            }
-            
-            .celebration-message {
-                font-size: 16px;
-            }
+        .safety-modal.alarm {
+            animation: pulse-red 0.5s infinite alternate;
+        }
+
+        @keyframes pulse-red {
+            from { background-color: rgba(176, 0, 32, 0.95); }
+            to { background-color: rgba(255, 69, 0, 1); }
+        }
+
+        .safety-modal-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+        }
+
+        .safety-icon {
+            font-size: 50px;
+            color: #b00020;
+            margin-bottom: 15px;
+        }
+
+        .safety-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            color: #b00020;
+            margin-bottom: 10px;
+        }
+
+        .safety-message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .safety-button {
+            background-color: #b00020;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .safety-button:hover {
+            background-color: #790016;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-leaf"></i>
-                    Mindful Journey
+        <div class="container header-content">
+            <div class="logo"><i class="fas fa-tree"></i> Mindful Journey</div>
+            <div class="header-right">
+                <div class="progress-container">
+                    <span class="progress-text" id="progressText">0/10</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
                 </div>
-                <div class="header-right">
-                    <div class="progress-container">
-                        <span class="progress-text">Progress:</span>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
-                        </div>
-                        <span class="progress-text" id="progressText">0/10</span>
-                    </div>
-                    <div class="reset-container">
-                        <button class="reset-button" id="resetProgress">Start the Journey Again</button>
-                    </div>
+                <div class="reset-container">
+                    <button class="reset-button" id="resetProgress">Reset</button>
                 </div>
             </div>
         </div>
@@ -876,9 +890,8 @@
         <div class="container">
             <h1 class="app-title">Your Path to Wellness</h1>
             <p class="app-subtitle">Complete these quests at your own pace. There's no right or wrong way to begin.</p>
-
+            
             <div class="quests-container">
-                <!-- Quest 1: Reach Out to Someone -->
                 <div class="quest-card quest-1" data-quest="1">
                     <div class="quest-title">
                         <span class="quest-number">1</span>Reach Out to Someone
@@ -892,7 +905,6 @@
                     </div>
                 </div>
 
-                <!-- Quest 2: Daily Mood Check-In -->
                 <div class="quest-card quest-2" data-quest="2">
                     <div class="quest-title">
                         <span class="quest-number">2</span>Daily Mood Check-In
@@ -906,7 +918,6 @@
                     </div>
                 </div>
 
-                <!-- Quest 3: Breathing Exercise -->
                 <div class="quest-card quest-3" data-quest="3">
                     <div class="quest-title">
                         <span class="quest-number">3</span>Breathing Exercise
@@ -920,7 +931,6 @@
                     </div>
                 </div>
 
-                <!-- Quest 4: Gratitude Note -->
                 <div class="quest-card quest-4" data-quest="4">
                     <div class="quest-title">
                         <span class="quest-number">4</span>Gratitude Note
@@ -934,13 +944,12 @@
                     </div>
                 </div>
 
-                <!-- Quest 5: Short Walk or Stretch -->
                 <div class="quest-card quest-5" data-quest="5">
                     <div class="quest-title">
                         <span class="quest-number">5</span>Short Walk or Stretch
                     </div>
                     <div class="quest-description">
-                        Get moving with a brief walk or stretching session.
+                        Physical activity, even gentle movement, can boost your mood.
                     </div>
                     <div class="quest-status">
                         <span class="quest-status-text">Not started</span>
@@ -948,13 +957,12 @@
                     </div>
                 </div>
 
-                <!-- Quest 6: Listen to Relaxing Audio -->
                 <div class="quest-card quest-6" data-quest="6">
                     <div class="quest-title">
-                        <span class="quest-number">6</span>Listen to Relaxing Audio
+                        <span class="quest-number">6</span>Listen to Relaxing Sounds
                     </div>
                     <div class="quest-description">
-                        Take a break with calming sounds or music.
+                        Engage your senses with calming nature sounds.
                     </div>
                     <div class="quest-status">
                         <span class="quest-status-text">Not started</span>
@@ -962,13 +970,12 @@
                     </div>
                 </div>
 
-                <!-- Quest 7: Positive Affirmations -->
                 <div class="quest-card quest-7" data-quest="7">
                     <div class="quest-title">
-                        <span class="quest-number">7</span>Positive Affirmations
+                        <span class="quest-number">7</span>Practice Affirmations
                     </div>
                     <div class="quest-description">
-                        Read or listen to uplifting affirmations.
+                        Repeat positive statements to build a supportive inner dialogue.
                     </div>
                     <div class="quest-status">
                         <span class="quest-status-text">Not started</span>
@@ -976,13 +983,12 @@
                     </div>
                 </div>
 
-                <!-- Quest 8: Journaling a Small Win -->
                 <div class="quest-card quest-8" data-quest="8">
                     <div class="quest-title">
                         <span class="quest-number">8</span>Journaling a Small Win
                     </div>
                     <div class="quest-description">
-                        Note down one small achievement from today.
+                        Recognize one small achievement or positive thing you did today.
                     </div>
                     <div class="quest-status">
                         <span class="quest-status-text">Not started</span>
@@ -990,13 +996,12 @@
                     </div>
                 </div>
 
-                <!-- Quest 9: Planning a Fun Activity -->
                 <div class="quest-card quest-9" data-quest="9">
                     <div class="quest-title">
                         <span class="quest-number">9</span>Planning a Fun Activity
                     </div>
                     <div class="quest-description">
-                        Schedule something enjoyable for the week ahead.
+                        Schedule a small enjoyable activity for the coming week.
                     </div>
                     <div class="quest-status">
                         <span class="quest-status-text">Not started</span>
@@ -1004,7 +1009,6 @@
                     </div>
                 </div>
 
-                <!-- Quest 10: Reflection and Next Steps -->
                 <div class="quest-card quest-10" data-quest="10">
                     <div class="quest-title">
                         <span class="quest-number">10</span>Reflection and Next Steps
@@ -1021,18 +1025,16 @@
         </div>
     </main>
 
-    <!-- Modal for Quest Details -->
     <div class="modal" id="questModal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title" id="modalTitle">Quest Title</h2>
-            <p class="modal-description" id="modalDescription">Quest description goes here.</p>
+            <span class="close-modal"><i class="fas fa-times"></i></span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <p class="modal-description" id="modalDescription"></p>
             <div id="modalContent"></div>
             <div class="modal-actions" id="modalActions"></div>
         </div>
     </div>
 
-    <!-- Confirmation Modal for Reset -->
     <div class="confirm-modal" id="confirmModal">
         <div class="confirm-modal-content">
             <h3 class="confirm-title">Reset Your Journey?</h3>
@@ -1044,7 +1046,6 @@
         </div>
     </div>
 
-    <!-- Celebration Modal -->
     <div class="celebration-modal" id="celebrationModal">
         <div class="celebration-content">
             <div class="celebration-icon">
@@ -1060,16 +1061,30 @@
             </div>
         </div>
     </div>
+    
+    <div class="safety-modal" id="safetyModal">
+        <div class="safety-modal-content">
+            <div class="safety-icon"><i class="fas fa-heart-pulse"></i></div>
+            <h2 class="safety-title">Your Life is Precious.</h2>
+            <p class="safety-message">
+                We are here for you. Please remember that your life has immense value. If you are struggling, please reach out now:
+            </p>
+            <p class="safety-message">
+                <strong>Call or Text 9152987821 - Indian Suicide Hotline.</strong>
+                <br>
+                <strong>Call 111 (UK) or your local emergency number.</strong>
+                <br>
+                <strong>Please talk to someone you trust.</strong>
+            </p>
+            <button class="safety-button" id="closeSafetyModal">I Will Reach Out</button>
+        </div>
+    </div>
 
-    <!-- Confetti Canvas -->
     <canvas id="confetti-canvas"></canvas>
-
-    <!-- Notification container -->
     <div class="notification" id="notification"></div>
     <div class="audio-notification" id="audioNotification"></div>
 
     <script>
-        // Quest data
         const quests = {
             1: {
                 title: "Reach Out to Someone",
@@ -1078,61 +1093,57 @@
                     <p>Consider contacting a friend, family member, or a support helpline. Even a brief conversation can make a difference.</p>
                     <p>Some conversation starters:</p>
                     <ul>
-                        <li>"I was thinking about you and wanted to check in."</li>
-                        <li>"How has your day been?"</li>
-                        <li>"I've been feeling a bit down lately and wanted to talk."</li>
-                    </ul>
-                    <p>If you don't have someone to call, consider these resources:</p>
-                    <ul>
-                        <li>National Suicide Prevention Lifeline: 988</li>
-                        <li>Crisis Text Line: Text HOME to 741741</li>
+                        <li>"I just wanted to say hi and see how you're doing."</li>
+                        <li>"I'm having a tough day, and I'd love to talk for a few minutes."</li>
+                        <li>"What's one good thing that happened to you recently?"</li>
                     </ul>
                 `,
                 actions: `
-                    <button class="modal-button" id="completeQuest1">I've Reached Out</button>
+                    <button class="modal-button" id="completeQuest1">I Reached Out</button>
                     <button class="modal-button secondary" id="skipQuest1">Skip for Now</button>
                 `
             },
             2: {
                 title: "Daily Mood Check-In",
-                description: "Tracking your mood can help you recognize patterns and better understand your emotional state.",
+                description: "Tracking your mood can help you identify patterns and triggers for your emotions.",
                 content: `
+                    <p>Select the option that best represents how you feel right now:</p>
                     <div class="mood-options">
                         <div class="mood-option" data-mood="very-sad">
-                            <div class="mood-emoji">😢</div>
+                            <span class="mood-emoji">😞</span>
                             <div>Very Sad</div>
                         </div>
                         <div class="mood-option" data-mood="sad">
-                            <div class="mood-emoji">😔</div>
+                            <span class="mood-emoji">🙁</span>
                             <div>Sad</div>
                         </div>
                         <div class="mood-option" data-mood="neutral">
-                            <div class="mood-emoji">😐</div>
+                            <span class="mood-emoji">😐</span>
                             <div>Neutral</div>
                         </div>
                         <div class="mood-option" data-mood="happy">
-                            <div class="mood-emoji">🙂</div>
+                            <span class="mood-emoji">🙂</span>
                             <div>Happy</div>
                         </div>
                         <div class="mood-option" data-mood="very-happy">
-                            <div class="mood-emoji">😄</div>
+                            <span class="mood-emoji">😊</span>
                             <div>Very Happy</div>
                         </div>
                     </div>
                     <div class="feedback-message" id="moodFeedback"></div>
-                    <textarea class="modal-textarea" id="moodNotes" placeholder="Optional: Add a note about why you're feeling this way..."></textarea>
+                    <p>Optional: Write a few words about why you feel this way:</p>
+                    <textarea class="modal-textarea" id="moodNotes" placeholder="Feeling overwhelmed, but also grateful for my coffee."></textarea>
                 `,
                 actions: `
-                    <button class="modal-button" id="saveMood">Save My Mood</button>
+                    <button class="modal-button" id="saveMood">Save Mood</button>
                     <button class="modal-button secondary" id="skipQuest2">Skip for Now</button>
                 `
             },
             3: {
                 title: "Breathing Exercise",
-                description: "Focused breathing can help calm your nervous system and reduce anxiety.",
+                description: "A simple 4-7-8 breathing exercise to calm your nervous system.",
                 content: `
                     <div class="breathing-container">
-                        <p>Follow the circle below for a simple breathing exercise:</p>
                         <div class="breathing-circle" id="breathingCircle">
                             <span class="breathing-text" id="breathingText">Breathe In</span>
                         </div>
@@ -1178,47 +1189,41 @@
                     <p>When you're ready, mark this quest as complete.</p>
                 `,
                 actions: `
-                    <button class="modal-button" id="completeQuest5">I've Completed My Activity</button>
+                    <button class="modal-button" id="completeQuest5">I Did Some Movement</button>
                     <button class="modal-button secondary" id="skipQuest5">Skip for Now</button>
                 `
             },
             6: {
-                title: "Listen to Relaxing Audio",
-                description: "Calming sounds or music can help reduce stress and promote relaxation.",
+                title: "Listen to Relaxing Sounds",
+                description: "Soundscapes can help create a calming environment and reduce stress.",
                 content: `
+                    <p>Take 5 minutes to relax and listen to one of these soundscapes.</p>
                     <div class="audio-player">
-                        <p>Choose one of these calming audio options:</p>
                         <div class="audio-controls">
-                            <button class="audio-button" id="playRain">
-                                <i class="fas fa-cloud-rain"></i>
-                            </button>
-                            <button class="audio-button" id="playOcean">
-                                <i class="fas fa-water"></i>
-                            </button>
-                            <button class="audio-button" id="playForest">
-                                <i class="fas fa-tree"></i>
-                            </button>
+                            <button class="audio-button" id="playRain"><i class="fas fa-cloud-showers-heavy"></i></button>
+                            <button class="audio-button" id="playOcean"><i class="fas fa-water"></i></button>
+                            <button class="audio-button" id="playForest"><i class="fas fa-leaf"></i></button>
                         </div>
-                        <p>Take 5-10 minutes to listen and relax.</p>
                     </div>
                 `,
                 actions: `
-                    <button class="modal-button" id="completeQuest6">I've Listened and Relaxed</button>
+                    <button class="modal-button" id="completeQuest6">I Found My Calm</button>
                     <button class="modal-button secondary" id="skipQuest6">Skip for Now</button>
                 `
             },
             7: {
-                title: "Positive Affirmations",
-                description: "Positive affirmations can help challenge negative thoughts and build self-esteem.",
+                title: "Practice Affirmations",
+                description: "Affirmations are positive statements that can challenge negative self-talk.",
                 content: `
+                    <p>Read the affirmation below out loud 3 times. Focus on the meaning behind the words.</p>
                     <div class="affirmation-container">
                         <p class="affirmation-text" id="affirmationText">I am worthy of love and respect.</p>
-                        <button class="modal-button" id="newAffirmation">New Affirmation</button>
                     </div>
-                    <p>Repeat this affirmation to yourself several times. You can say it out loud or in your mind.</p>
-                    <p>Remember that these statements are true, even if they don't feel that way right now.</p>
+                    <p>When you're ready for a new one, click the button below.</p>
+                    
                 `,
                 actions: `
+                    <button class="modal-button" id="newAffirmation">New Affirmation</button>
                     <button class="modal-button" id="completeQuest7">I've Practiced Affirmations</button>
                     <button class="modal-button secondary" id="skipQuest7">Skip for Now</button>
                 `
@@ -1273,300 +1278,305 @@
                     <textarea class="modal-textarea" id="reflection" placeholder="What have I learned about myself? Which activities were most helpful?"></textarea>
                     <p>Now, set one small goal for tomorrow:</p>
                     <input type="text" class="modal-input" id="nextStep" placeholder="Tomorrow I will...">
-                    <p>Examples:</p>
-                    <ul>
-                        <li>I will practice deep breathing for 5 minutes</li>
-                        <li>I will write down three things I'm grateful for</li>
-                        <li>I will reach out to a friend</li>
-                    </ul>
                 `,
                 actions: `
-                    <button class="modal-button" id="completeQuest10">Save My Reflection</button>
+                    <button class="modal-button" id="completeQuest10">Complete Quest</button>
                     <button class="modal-button secondary" id="skipQuest10">Skip for Now</button>
                 `
             }
         };
 
-        // App state
-// Add these to your existing App State variables
-let currentAudioObj = null;
-let currentAudioType = null;
-
-// Real audio sources (using free-to-use samples)
-const audioSources = {
-    // Using Google Actions Library for reliable Rain & Forest sounds
-    rain: 'https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg',
-    ocean: 'https://assets.mixkit.co/active_storage/sfx/1196/1196-preview.mp3', // Kept your working ocean sound
-    forest: 'https://actions.google.com/sounds/v1/ambiences/jungle_atmosphere_morning.ogg'
-};
-        let completedQuests = JSON.parse(localStorage.getItem('completedQuests')) || [];
         let currentQuest = null;
-        let breathingInterval = null;
+        let completedQuests = JSON.parse(localStorage.getItem('completedQuests')) || [];
         let selectedMood = null;
+        let breathingInterval = null;
+        let audioElements = {};
+        let currentAudio = null;
         let celebrationShown = JSON.parse(localStorage.getItem('celebrationShown')) || false;
+        
+        const safetyWords = [
+            'suicide',
+            'self harm',
+            'self-harm',
+            'kill myself',
+            'end my life',
+            'harm myself',
+            'want to die',
+            'should die',
+            'stab myself', 
+            'slit my throat', 
+            'cut myself', 
+            'overdose', 
+            'take pills', 
+            'jump off', 
+            'hang myself'
+        ];
 
-        // Initialize the app
+        function showSafetyScreen() {
+            const safetyModal = document.getElementById('safetyModal');
+            safetyModal.style.display = 'flex';
+            safetyModal.classList.add('alarm');
+            closeModal();
+
+            alert("!! IMPORTANT: Safety Alert !!");
+        }
+
+        function checkSafetyFilter(text) {
+            if (!text || typeof text !== 'string') return false;
+
+            const lowerText = text.toLowerCase();
+            for (const word of safetyWords) {
+                const regex = new RegExp(`\\b${word.replace(/\s/g, '\\s*')}\\b`, 'i');
+                if (regex.test(lowerText)) {
+                    showSafetyScreen();
+                    return true;
+                }
+            }
+            return false;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             updateProgress();
             updateQuestCards();
             setupEventListeners();
-            
-            // Check if all quests are completed and celebration hasn't been shown
             if (completedQuests.length === 10 && !celebrationShown) {
                 showCelebration();
             }
         });
 
-        // Setup event listeners
         function setupEventListeners() {
-            // Reset progress button
             document.getElementById('resetProgress').addEventListener('click', function() {
                 document.getElementById('confirmModal').style.display = 'flex';
             });
-
-            // Confirmation modal buttons
             document.getElementById('cancelReset').addEventListener('click', function() {
                 document.getElementById('confirmModal').style.display = 'none';
             });
-
             document.getElementById('confirmReset').addEventListener('click', function() {
                 resetProgress();
                 document.getElementById('confirmModal').style.display = 'none';
             });
-
-            // Celebration modal buttons
             document.getElementById('closeCelebration').addEventListener('click', function() {
                 document.getElementById('celebrationModal').style.display = 'none';
                 stopConfetti();
             });
-
             document.getElementById('resetFromCelebration').addEventListener('click', function() {
                 resetProgress();
                 document.getElementById('celebrationModal').style.display = 'none';
                 stopConfetti();
             });
-
-            // Quest card clicks
+            document.getElementById('closeSafetyModal').addEventListener('click', function() {
+                document.getElementById('safetyModal').style.display = 'none';
+                document.getElementById('safetyModal').classList.remove('alarm');
+            });
             document.querySelectorAll('.quest-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const questId = parseInt(this.dataset.quest);
                     openQuestModal(questId);
                 });
             });
-
-            // Modal close
             document.querySelector('.close-modal').addEventListener('click', closeModal);
             document.getElementById('questModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeModal();
                 }
             });
-
-            // Quest 1: Reach Out
-            document.getElementById('completeQuest1').addEventListener('click', function() {
-                completeQuest(1);
-            });
-            document.getElementById('skipQuest1').addEventListener('click', function() {
-                closeModal();
-            });
-
-            // Quest 2: Mood Check-In
-            document.querySelectorAll('.mood-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedMood = this.dataset.mood;
-                    showMoodFeedback();
+        }
+        
+        function setupModalEventListeners(questId) {
+            if (questId === 1) {
+                document.getElementById('completeQuest1').addEventListener('click', function() {
+                    completeQuest(1);
                 });
-            });
-            
-            document.getElementById('moodNotes').addEventListener('input', function() {
-                if (this.value.trim()) {
-                    showMoodNotesFeedback();
-                }
-            });
-            
-            document.getElementById('saveMood').addEventListener('click', function() {
-                if (selectedMood) {
+                document.getElementById('skipQuest1').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
+
+            if (questId === 2) {
+                document.querySelectorAll('.mood-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedMood = this.dataset.mood;
+                        showMoodFeedback();
+                    });
+                });
+                document.getElementById('moodNotes').addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        showMoodNotesFeedback();
+                    }
+                });
+                document.getElementById('saveMood').addEventListener('click', function() {
                     const notes = document.getElementById('moodNotes').value;
-                    localStorage.setItem('moodData', JSON.stringify({
-                        mood: selectedMood,
-                        notes: notes,
-                        date: new Date().toISOString()
-                    }));
-                    completeQuest(2);
-                } else {
-                    alert('Please select your mood');
-                }
-            });
-            document.getElementById('skipQuest2').addEventListener('click', function() {
-                closeModal();
-            });
+                    if (checkSafetyFilter(notes)) { return; }
 
-            // Quest 3: Breathing Exercise
-            document.getElementById('startBreathing').addEventListener('click', function() {
-                startBreathingExercise();
-            });
-            document.getElementById('completeQuest3').addEventListener('click', function() {
-                if (breathingInterval) {
-                    clearInterval(breathingInterval);
-                    breathingInterval = null;
-                }
-                completeQuest(3);
-            });
-            document.getElementById('skipQuest3').addEventListener('click', function() {
-                if (breathingInterval) {
-                    clearInterval(breathingInterval);
-                    breathingInterval = null;
-                }
-                closeModal();
-            });
+                    if (selectedMood) {
+                        localStorage.setItem('moodData', JSON.stringify({ mood: selectedMood, notes: notes, date: new Date().toISOString() }));
+                        completeQuest(2);
+                    } else {
+                        alert('Please select your mood');
+                    }
+                });
+                document.getElementById('skipQuest2').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
 
-            // Quest 4: Gratitude Note
-            document.getElementById('gratitudeNote').addEventListener('input', function() {
-                showGratitudeFeedback(this.value);
-            });
-            
-            document.getElementById('saveGratitude').addEventListener('click', function() {
-                const note = document.getElementById('gratitudeNote').value;
-                if (note.trim()) {
-                    const gratitudeNotes = JSON.parse(localStorage.getItem('gratitudeNotes')) || [];
-                    gratitudeNotes.push({
-                        note: note,
-                        date: new Date().toISOString()
-                    });
-                    localStorage.setItem('gratitudeNotes', JSON.stringify(gratitudeNotes));
-                    completeQuest(4);
-                } else {
-                    alert('Please write something you\'re grateful for');
-                }
-            });
-            document.getElementById('skipQuest4').addEventListener('click', function() {
-                closeModal();
-            });
+            if (questId === 3) {
+                document.getElementById('startBreathing').addEventListener('click', function() {
+                    startBreathingExercise();
+                });
+                document.getElementById('completeQuest3').addEventListener('click', function() {
+                    if (breathingInterval) {
+                        clearInterval(breathingInterval);
+                        breathingInterval = null;
+                        completeQuest(3);
+                    }
+                });
+                document.getElementById('skipQuest3').addEventListener('click', function() {
+                    if (breathingInterval) {
+                        clearInterval(breathingInterval);
+                    }
+                    closeModal();
+                });
+            }
 
-            // Quest 5: Short Walk or Stretch
-            document.getElementById('completeQuest5').addEventListener('click', function() {
-                completeQuest(5);
-            });
-            document.getElementById('skipQuest5').addEventListener('click', function() {
-                closeModal();
-            });
+            if (questId === 4) {
+                document.getElementById('gratitudeNote').addEventListener('input', function() {
+                    showGratitudeFeedback(this.value);
+                });
+                document.getElementById('saveGratitude').addEventListener('click', function() {
+                    const note = document.getElementById('gratitudeNote').value;
+                    if (checkSafetyFilter(note)) { return; }
 
-            // Quest 6: Relaxing Audio
-            document.getElementById('playRain').addEventListener('click', function() {
-                playAudio('rain');
-            });
-            document.getElementById('playOcean').addEventListener('click', function() {
-                playAudio('ocean');
-            });
-            document.getElementById('playForest').addEventListener('click', function() {
-                playAudio('forest');
-            });
-            document.getElementById('completeQuest6').addEventListener('click', function() {
-                completeQuest(6);
-            });
-            document.getElementById('skipQuest6').addEventListener('click', function() {
-                closeModal();
-            });
+                    if (note.trim()) {
+                        const gratitudeNotes = JSON.parse(localStorage.getItem('gratitudeNotes')) || [];
+                        gratitudeNotes.push({ note: note, date: new Date().toISOString() });
+                        localStorage.setItem('gratitudeNotes', JSON.stringify(gratitudeNotes));
+                        completeQuest(4);
+                    } else {
+                        alert('Please write something you\'re grateful for');
+                    }
+                });
+                document.getElementById('skipQuest4').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
 
-            // Quest 7: Positive Affirmations
-            document.getElementById('newAffirmation').addEventListener('click', function() {
-                showNewAffirmation();
-            });
-            document.getElementById('completeQuest7').addEventListener('click', function() {
-                completeQuest(7);
-            });
-            document.getElementById('skipQuest7').addEventListener('click', function() {
-                closeModal();
-            });
+            if (questId === 5) {
+                document.getElementById('completeQuest5').addEventListener('click', function() {
+                    completeQuest(5);
+                });
+                document.getElementById('skipQuest5').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
 
-            // Quest 8: Journaling a Small Win
-            document.getElementById('smallWin').addEventListener('input', function() {
-                showWinFeedback(this.value);
-            });
-            
-            document.getElementById('saveWin').addEventListener('click', function() {
-                const win = document.getElementById('smallWin').value;
-                if (win.trim()) {
-                    const smallWins = JSON.parse(localStorage.getItem('smallWins')) || [];
-                    smallWins.push({
-                        win: win,
-                        date: new Date().toISOString()
-                    });
-                    localStorage.setItem('smallWins', JSON.stringify(smallWins));
-                    completeQuest(8);
-                } else {
-                    alert('Please write about a small win');
-                }
-            });
-            document.getElementById('skipQuest8').addEventListener('click', function() {
-                closeModal();
-            });
+            if (questId === 6) {
+                document.getElementById('playRain').addEventListener('click', () => playAudio('rain'));
+                document.getElementById('playOcean').addEventListener('click', () => playAudio('ocean'));
+                document.getElementById('playForest').addEventListener('click', () => playAudio('forest'));
+                document.getElementById('completeQuest6').addEventListener('click', function() {
+                    stopCurrentAudio();
+                    completeQuest(6);
+                });
+                document.getElementById('skipQuest6').addEventListener('click', function() {
+                    stopCurrentAudio();
+                    closeModal();
+                });
+            }
 
-            // Quest 9: Planning a Fun Activity
-            document.getElementById('funActivity').addEventListener('input', function() {
-                showActivityFeedback(this.value, document.getElementById('activityDate').value);
-            });
-            
-            document.getElementById('activityDate').addEventListener('input', function() {
-                showActivityFeedback(document.getElementById('funActivity').value, this.value);
-            });
-            
-            document.getElementById('saveActivity').addEventListener('click', function() {
-                const activity = document.getElementById('funActivity').value;
-                const date = document.getElementById('activityDate').value;
-                if (activity.trim() && date.trim()) {
-                    const activities = JSON.parse(localStorage.getItem('plannedActivities')) || [];
-                    activities.push({
-                        activity: activity,
-                        date: date,
-                        completed: false,
-                        createdDate: new Date().toISOString()
-                    });
-                    localStorage.setItem('plannedActivities', JSON.stringify(activities));
-                    completeQuest(9);
-                } else {
-                    alert('Please fill in both fields');
-                }
-            });
-            document.getElementById('skipQuest9').addEventListener('click', function() {
-                closeModal();
-            });
+            if (questId === 7) {
+                document.getElementById('newAffirmation').addEventListener('click', function() {
+                    showNewAffirmation();
+                });
+                document.getElementById('completeQuest7').addEventListener('click', function() {
+                    completeQuest(7);
+                });
+                document.getElementById('skipQuest7').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
 
-            // Quest 10: Reflection and Next Steps
-            document.getElementById('reflection').addEventListener('input', function() {
-                showReflectionFeedback(this.value, document.getElementById('nextStep').value);
-            });
-            
-            document.getElementById('nextStep').addEventListener('input', function() {
-                showReflectionFeedback(document.getElementById('reflection').value, this.value);
-            });
-            
-            document.getElementById('completeQuest10').addEventListener('click', function() {
-                const reflection = document.getElementById('reflection').value;
-                const nextStep = document.getElementById('nextStep').value;
-                if (reflection.trim() && nextStep.trim()) {
-                    const reflections = JSON.parse(localStorage.getItem('reflections')) || [];
-                    reflections.push({
-                        reflection: reflection,
-                        nextStep: nextStep,
-                        date: new Date().toISOString()
-                    });
-                    localStorage.setItem('reflections', JSON.stringify(reflections));
-                    completeQuest(10);
-                } else {
-                    alert('Please fill in both fields');
-                }
-            });
-            document.getElementById('skipQuest10').addEventListener('click', function() {
-                closeModal();
-            });
+            if (questId === 8) {
+                document.getElementById('smallWin').addEventListener('input', function() {
+                    showWinFeedback(this.value);
+                });
+                document.getElementById('saveWin').addEventListener('click', function() {
+                    const win = document.getElementById('smallWin').value;
+                    if (checkSafetyFilter(win)) { return; }
+
+                    if (win.trim()) {
+                        const smallWins = JSON.parse(localStorage.getItem('smallWins')) || [];
+                        smallWins.push({ win: win, date: new Date().toISOString() });
+                        localStorage.setItem('smallWins', JSON.stringify(smallWins));
+                        completeQuest(8);
+                    } else {
+                        alert('Please write about a small win');
+                    }
+                });
+                document.getElementById('skipQuest8').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
+
+            if (questId === 9) {
+                document.getElementById('funActivity').addEventListener('input', function() {
+                    showActivityFeedback(this.value, document.getElementById('activityDate').value);
+                });
+                document.getElementById('activityDate').addEventListener('input', function() {
+                    showActivityFeedback(document.getElementById('funActivity').value, this.value);
+                });
+                document.getElementById('saveActivity').addEventListener('click', function() {
+                    const activity = document.getElementById('funActivity').value;
+                    const date = document.getElementById('activityDate').value;
+
+                    if (checkSafetyFilter(activity) || checkSafetyFilter(date)) { return; }
+
+                    if (activity.trim() && date.trim()) {
+                        const activities = JSON.parse(localStorage.getItem('plannedActivities')) || [];
+                        activities.push({ activity: activity, date: date, completed: false, createdDate: new Date().toISOString() });
+                        localStorage.setItem('plannedActivities', JSON.stringify(activities));
+                        completeQuest(9);
+                    } else {
+                        alert('Please fill in both fields');
+                    }
+                });
+                document.getElementById('skipQuest9').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
+
+            if (questId === 10) {
+                document.getElementById('reflection').addEventListener('input', function() {
+                    showReflectionFeedback(this.value, document.getElementById('nextStep').value);
+                });
+                document.getElementById('nextStep').addEventListener('input', function() {
+                    showReflectionFeedback(document.getElementById('reflection').value, this.value);
+                });
+                document.getElementById('completeQuest10').addEventListener('click', function() {
+                    const reflection = document.getElementById('reflection').value;
+                    const nextStep = document.getElementById('nextStep').value;
+
+                    if (checkSafetyFilter(reflection) || checkSafetyFilter(nextStep)) { return; }
+
+                    if (reflection.trim() && nextStep.trim()) {
+                        const reflections = JSON.parse(localStorage.getItem('reflections')) || [];
+                        reflections.push({ reflection: reflection, nextStep: nextStep, date: new Date().toISOString() });
+                        localStorage.setItem('reflections', JSON.stringify(reflections));
+                        completeQuest(10);
+                    } else {
+                        alert('Please fill in both fields');
+                    }
+                });
+                document.getElementById('skipQuest10').addEventListener('click', function() {
+                    closeModal();
+                });
+            }
         }
 
-        // Reset progress function
+
         function resetProgress() {
-            // Clear all localStorage data related to the app
             localStorage.removeItem('completedQuests');
             localStorage.removeItem('moodData');
             localStorage.removeItem('gratitudeNotes');
@@ -1574,113 +1584,130 @@ const audioSources = {
             localStorage.removeItem('plannedActivities');
             localStorage.removeItem('reflections');
             localStorage.removeItem('celebrationShown');
-            
-            // Reset app state
             completedQuests = [];
             celebrationShown = false;
-            
-            // Update UI
             updateProgress();
             updateQuestCards();
-            
-            // Show confirmation message
             const notification = document.getElementById('notification');
             notification.textContent = 'Your journey has been reset. Take a deep breath and begin again.';
             notification.classList.add('show');
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
+            setTimeout(() => { notification.classList.remove('show'); }, 5000);
         }
 
-        // Show celebration modal and confetti
-        function showCelebration() {
-            document.getElementById('celebrationModal').style.display = 'flex';
-            startConfetti();
-            localStorage.setItem('celebrationShown', JSON.stringify(true));
-            celebrationShown = true;
-        }
-
-        // Confetti effect
-        let confettiAnimationId = null;
-        const confettiColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700', '#ff8c00'];
-        
-        function startConfetti() {
-            const canvas = document.getElementById('confetti-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            const confettiParticles = [];
-            const particleCount = 150;
-            
-            // Create confetti particles
-            for (let i = 0; i < particleCount; i++) {
-                confettiParticles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height - canvas.height,
-                    size: Math.random() * 10 + 5,
-                    speedX: Math.random() * 3 - 1.5,
-                    speedY: Math.random() * 3 + 2,
-                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
-                    angle: Math.random() * 360,
-                    angleSpeed: Math.random() * 0.2 - 0.1,
-                    opacity: Math.random() * 0.5 + 0.5
-                });
+        function completeQuest(questId) {
+            if (!completedQuests.includes(questId)) {
+                completedQuests.push(questId);
+                localStorage.setItem('completedQuests', JSON.stringify(completedQuests));
+                updateProgress();
+                updateQuestCards();
             }
             
-            // Animation function
-            function animateConfetti() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            showCompletionMessage(questId);
+            closeModal();
+            if (completedQuests.length === 10 && !celebrationShown) {
+                showCelebration();
+            }
+        }
+
+        function updateProgress() {
+            const progress = completedQuests.length;
+            const percentage = (progress / 10) * 100;
+            
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${progress}/10`;
+        }
+
+        function updateQuestCards() {
+            document.querySelectorAll('.quest-card').forEach(card => {
+                const questId = parseInt(card.dataset.quest);
+                const statusText = card.querySelector('.quest-status-text');
+                const button = card.querySelector('.quest-button');
                 
-                for (let i = 0; i < confettiParticles.length; i++) {
-                    const p = confettiParticles[i];
-                    
-                    // Update position
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                    p.angle += p.angleSpeed;
-                    
-                    // Apply gravity
-                    p.speedY += 0.05;
-                    
-                    // Reset particles that fall off screen
-                    if (p.y > canvas.height) {
-                        p.y = -10;
-                        p.x = Math.random() * canvas.width;
-                        p.speedY = Math.random() * 3 + 2;
-                    }
-                    
-                    // Draw particle
-                    ctx.save();
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate(p.angle);
-                    ctx.globalAlpha = p.opacity;
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-                    ctx.restore();
+                if (completedQuests.includes(questId)) {
+                    card.classList.add('completed');
+                    statusText.textContent = 'Completed';
+                    button.textContent = 'Redo';
+                    button.classList.add('completed');
+                } else {
+                    card.classList.remove('completed');
+                    statusText.textContent = 'Not started';
+                    button.textContent = 'Start';
+                    button.classList.remove('completed');
                 }
-                
-                confettiAnimationId = requestAnimationFrame(animateConfetti);
-            }
-            
-            animateConfetti();
+            });
         }
-        
-        function stopConfetti() {
-            if (confettiAnimationId) {
-                cancelAnimationFrame(confettiAnimationId);
-                confettiAnimationId = null;
-                
-                // Clear canvas
-                const canvas = document.getElementById('confetti-canvas');
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        function showCompletionMessage(questId) {
+            const messages = [
+                "Great job reaching out! Connection is a powerful tool for wellness.",
+                "Thank you for checking in with your feelings. Self-awareness is the first step to emotional health.",
+                "Breathing exercises can help calm your mind. Remember this technique whenever you feel overwhelmed.",
+                "Practicing gratitude can shift your perspective. What you focus on grows.",
+                "Movement is medicine for the mind. Your body and mind thank you.",
+                "Taking time to relax is essential for mental health. You deserve this moment of peace.",
+                "Positive affirmations can rewire your thinking patterns. You are worthy and capable.",
+                "Recognizing small wins builds momentum for bigger achievements. Every step counts.",
+                "Having something to look forward to can brighten your days. Anticipation is a joy in itself.",
+                "Reflection helps you recognize your growth. You've come a long way on your wellness journey."
+            ];
+            const notification = document.getElementById('notification');
+            notification.textContent = messages[questId - 1];
+            notification.classList.add('show');
+            setTimeout(() => { notification.classList.remove('show'); }, 5000);
+        }
+
+        function startBreathingExercise() {
+            const circle = document.getElementById('breathingCircle');
+            const text = document.getElementById('breathingText');
+            const startButton = document.getElementById('startBreathing');
+            const completeButton = document.getElementById('completeQuest3');
+            let inhaling = true;
+
+            if (breathingInterval) {
+                clearInterval(breathingInterval);
+                breathingInterval = null;
+                circle.classList.remove('inhale');
+                text.textContent = 'Breathe In';
+                startButton.textContent = 'Start Exercise';
+                completeButton.style.display = 'none';
+                return;
+            }
+
+            circle.classList.add('inhale');
+            text.textContent = 'Breathe In';
+            startButton.textContent = 'Stop Exercise';
+            completeButton.style.display = 'block';
+
+            breathingInterval = setInterval(() => {
+                if (inhaling) {
+                    text.textContent = 'Hold';
+                    setTimeout(() => {
+                        text.textContent = 'Breathe Out';
+                        circle.classList.remove('inhale');
+                        inhaling = false;
+                    }, 700);
+                } else {
+                    text.textContent = 'Hold';
+                    setTimeout(() => {
+                        text.textContent = 'Breathe In';
+                        circle.classList.add('inhale');
+                        inhaling = true;
+                    }, 400);
+                }
+            }, 4000);
+        }
+
+        function closeModal() {
+            document.getElementById('questModal').style.display = 'none';
+            if (breathingInterval) {
+                clearInterval(breathingInterval);
+                breathingInterval = null;
+            }
+            if (currentAudio) {
+                stopCurrentAudio();
             }
         }
 
-        // Feedback functions for text input quests
         function showMoodFeedback() {
             const feedback = document.getElementById('moodFeedback');
             const moodMessages = {
@@ -1690,7 +1717,6 @@ const audioSources = {
                 'happy': "That's wonderful! Hold onto this feeling and let it brighten your day.",
                 'very-happy': "Amazing! Celebrate this joy and let it fill you with positive energy."
             };
-            
             feedback.textContent = moodMessages[selectedMood];
             feedback.className = 'feedback-message info show';
         }
@@ -1725,7 +1751,7 @@ const audioSources = {
                     feedback.textContent = "That's a win! Every achievement counts, no matter how small. Can you tell us more about it?";
                     feedback.className = 'feedback-message info show';
                 } else {
-                    feedback.textContent = "Fantastic! Recognizing your wins builds confidence and momentum. You're doing great!";
+                    feedback.textContent = "Fantastic! Holding onto small victories helps build self-esteem.";
                     feedback.className = 'feedback-message success show';
                 }
             } else {
@@ -1736,13 +1762,13 @@ const audioSources = {
         function showActivityFeedback(activity, date) {
             const feedback = document.getElementById('activityFeedback');
             if (activity.trim() && date.trim()) {
-                feedback.textContent = "Perfect! Having something to look forward to can brighten your entire week.";
+                feedback.textContent = `Wonderful! Looking forward to your activity: ${activity} on ${date}.`;
                 feedback.className = 'feedback-message success show';
             } else if (activity.trim()) {
-                feedback.textContent = "Great activity idea! Now, when will you do it?";
+                feedback.textContent = "Great activity! When are you planning to do it?";
                 feedback.className = 'feedback-message info show';
             } else if (date.trim()) {
-                feedback.textContent = "Good thinking about timing! What activity would you like to do?";
+                feedback.textContent = "Nice plan for a time! What activity will you do?";
                 feedback.className = 'feedback-message info show';
             } else {
                 feedback.className = 'feedback-message';
@@ -1765,19 +1791,15 @@ const audioSources = {
             }
         }
 
-        // Open quest modal
         function openQuestModal(questId) {
             currentQuest = questId;
             const quest = quests[questId];
-            
             document.getElementById('modalTitle').textContent = quest.title;
             document.getElementById('modalDescription').textContent = quest.description;
             document.getElementById('modalContent').innerHTML = quest.content;
             document.getElementById('modalActions').innerHTML = quest.actions;
-            
             document.getElementById('questModal').style.display = 'flex';
-            
-            // Reset quest-specific state
+
             if (questId === 2) {
                 selectedMood = null;
                 document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
@@ -1794,6 +1816,8 @@ const audioSources = {
             } else if (questId === 4) {
                 document.getElementById('gratitudeNote').value = '';
                 document.getElementById('gratitudeFeedback').className = 'feedback-message';
+            } else if (questId === 6) {
+                stopCurrentAudio();
             } else if (questId === 7) {
                 showNewAffirmation();
             } else if (questId === 8) {
@@ -1808,409 +1832,70 @@ const audioSources = {
                 document.getElementById('nextStep').value = '';
                 document.getElementById('reflectionFeedback').className = 'feedback-message';
             }
-            
-            // Re-attach event listeners for dynamically created elements
-            attachDynamicEventListeners(questId);
+
+            setupModalEventListeners(questId);
         }
 
-        // Attach event listeners for dynamically created elements
-        function attachDynamicEventListeners(questId) {
-            // Quest 1: Reach Out
-            if (questId === 1) {
-                document.getElementById('completeQuest1').addEventListener('click', function() {
-                    completeQuest(1);
-                });
-                document.getElementById('skipQuest1').addEventListener('click', function() {
-                    closeModal();
-                });
+        function playAudio(type) {
+            if (currentAudio) {
+                stopCurrentAudio();
             }
-            
-            // Quest 2: Mood Check-In
-            if (questId === 2) {
-                document.querySelectorAll('.mood-option').forEach(option => {
-                    option.addEventListener('click', function() {
-                        document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
-                        this.classList.add('selected');
-                        selectedMood = this.dataset.mood;
-                        showMoodFeedback();
-                    });
-                });
-                
-                document.getElementById('moodNotes').addEventListener('input', function() {
-                    if (this.value.trim()) {
-                        showMoodNotesFeedback();
-                    }
-                });
-                
-                document.getElementById('saveMood').addEventListener('click', function() {
-                    if (selectedMood) {
-                        const notes = document.getElementById('moodNotes').value;
-                        localStorage.setItem('moodData', JSON.stringify({
-                            mood: selectedMood,
-                            notes: notes,
-                            date: new Date().toISOString()
-                        }));
-                        completeQuest(2);
-                    } else {
-                        alert('Please select your mood');
-                    }
-                });
-                document.getElementById('skipQuest2').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-            
-            // Quest 3: Breathing Exercise
-            if (questId === 3) {
-                document.getElementById('startBreathing').addEventListener('click', function() {
-                    startBreathingExercise();
-                });
-                document.getElementById('completeQuest3').addEventListener('click', function() {
-                    if (breathingInterval) {
-                        clearInterval(breathingInterval);
-                        breathingInterval = null;
-                    }
-                    completeQuest(3);
-                });
-                document.getElementById('skipQuest3').addEventListener('click', function() {
-                    if (breathingInterval) {
-                        clearInterval(breathingInterval);
-                        breathingInterval = null;
-                    }
-                    closeModal();
-                });
-            }
-            
-            // Quest 4: Gratitude Note
-            if (questId === 4) {
-                document.getElementById('gratitudeNote').addEventListener('input', function() {
-                    showGratitudeFeedback(this.value);
-                });
-                
-                document.getElementById('saveGratitude').addEventListener('click', function() {
-                    const note = document.getElementById('gratitudeNote').value;
-                    if (note.trim()) {
-                        const gratitudeNotes = JSON.parse(localStorage.getItem('gratitudeNotes')) || [];
-                        gratitudeNotes.push({
-                            note: note,
-                            date: new Date().toISOString()
-                        });
-                        localStorage.setItem('gratitudeNotes', JSON.stringify(gratitudeNotes));
-                        completeQuest(4);
-                    } else {
-                        alert('Please write something you\'re grateful for');
-                    }
-                });
-                document.getElementById('skipQuest4').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-            
-            // Quest 5: Short Walk or Stretch
-            if (questId === 5) {
-                document.getElementById('completeQuest5').addEventListener('click', function() {
-                    completeQuest(5);
-                });
-                document.getElementById('skipQuest5').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-            
-            // Quest 6: Relaxing Audio
-            // Inside attachDynamicEventListeners, find "if (questId === 6)" and update it:
-if (questId === 6) {
-   document.getElementById('playRain').addEventListener('click', () => playAudio('rain'));
-    document.getElementById('playOcean').addEventListener('click', () => playAudio('ocean'));
-    document.getElementById('playForest').addEventListener('click', () => playAudio('forest'));
-    
-    document.getElementById('completeQuest6').addEventListener('click', function() {
-        stopCurrentAudio(); // Stop sound before completing
-        completeQuest(6);
-    });
-    
-    document.getElementById('skipQuest6').addEventListener('click', function() {
-        stopCurrentAudio(); // Stop sound before skipping
-        closeModal();
-    });
-}
-            
-            // Quest 7: Positive Affirmations
-            if (questId === 7) {
-                document.getElementById('newAffirmation').addEventListener('click', function() {
-                    showNewAffirmation();
-                });
-                document.getElementById('completeQuest7').addEventListener('click', function() {
-                    completeQuest(7);
-                });
-                document.getElementById('skipQuest7').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-            
-            // Quest 8: Journaling a Small Win
-            if (questId === 8) {
-                document.getElementById('smallWin').addEventListener('input', function() {
-                    showWinFeedback(this.value);
-                });
-                
-                document.getElementById('saveWin').addEventListener('click', function() {
-                    const win = document.getElementById('smallWin').value;
-                    if (win.trim()) {
-                        const smallWins = JSON.parse(localStorage.getItem('smallWins')) || [];
-                        smallWins.push({
-                            win: win,
-                            date: new Date().toISOString()
-                        });
-                        localStorage.setItem('smallWins', JSON.stringify(smallWins));
-                        completeQuest(8);
-                    } else {
-                        alert('Please write about a small win');
-                    }
-                });
-                document.getElementById('skipQuest8').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-            
-            // Quest 9: Planning a Fun Activity
-            if (questId === 9) {
-                document.getElementById('funActivity').addEventListener('input', function() {
-                    showActivityFeedback(this.value, document.getElementById('activityDate').value);
-                });
-                
-                document.getElementById('activityDate').addEventListener('input', function() {
-                    showActivityFeedback(document.getElementById('funActivity').value, this.value);
-                });
-                
-                document.getElementById('saveActivity').addEventListener('click', function() {
-                    const activity = document.getElementById('funActivity').value;
-                    const date = document.getElementById('activityDate').value;
-                    if (activity.trim() && date.trim()) {
-                        const activities = JSON.parse(localStorage.getItem('plannedActivities')) || [];
-                        activities.push({
-                            activity: activity,
-                            date: date,
-                            completed: false,
-                            createdDate: new Date().toISOString()
-                        });
-                        localStorage.setItem('plannedActivities', JSON.stringify(activities));
-                        completeQuest(9);
-                    } else {
-                        alert('Please fill in both fields');
-                    }
-                });
-                document.getElementById('skipQuest9').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-            
-            // Quest 10: Reflection and Next Steps
-            if (questId === 10) {
-                document.getElementById('reflection').addEventListener('input', function() {
-                    showReflectionFeedback(this.value, document.getElementById('nextStep').value);
-                });
-                
-                document.getElementById('nextStep').addEventListener('input', function() {
-                    showReflectionFeedback(document.getElementById('reflection').value, this.value);
-                });
-                
-                document.getElementById('completeQuest10').addEventListener('click', function() {
-                    const reflection = document.getElementById('reflection').value;
-                    const nextStep = document.getElementById('nextStep').value;
-                    if (reflection.trim() && nextStep.trim()) {
-                        const reflections = JSON.parse(localStorage.getItem('reflections')) || [];
-                        reflections.push({
-                            reflection: reflection,
-                            nextStep: nextStep,
-                            date: new Date().toISOString()
-                        });
-                        localStorage.setItem('reflections', JSON.stringify(reflections));
-                        completeQuest(10);
-                    } else {
-                        alert('Please fill in both fields');
-                    }
-                });
-                document.getElementById('skipQuest10').addEventListener('click', function() {
-                    closeModal();
-                });
-            }
-        }
 
-        // Update your existing closeModal function
-function closeModal() {
-    document.getElementById('questModal').style.display = 'none';
-    currentQuest = null;
-    stopCurrentAudio(); // <--- IMPORTANT: Stop sound when closing modal
-}
+            const src = type === 'rain' ? 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' : 
+                        type === 'ocean' ? 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' :
+                        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
 
-        // Update progress bar
-        function updateProgress() {
-            const progress = completedQuests.length;
-            const percentage = (progress / 10) * 100;
-            
-            document.getElementById('progressFill').style.width = `${percentage}%`;
-            document.getElementById('progressText').textContent = `${progress}/10`;
-        }
+            let audio = audioElements[type];
+            if (!audio) {
+                audio = new Audio(src);
+                audio.loop = true;
+                audio.volume = 0.6;
+                audioElements[type] = audio;
+            }
 
-        // Update quest cards
-        function updateQuestCards() {
-            document.querySelectorAll('.quest-card').forEach(card => {
-                const questId = parseInt(card.dataset.quest);
-                const statusText = card.querySelector('.quest-status-text');
-                const button = card.querySelector('.quest-button');
-                
-                if (completedQuests.includes(questId)) {
-                    card.classList.add('completed');
-                    statusText.textContent = 'Completed';
-                    button.textContent = 'Redo';
-                    button.classList.add('completed');
-                } else {
-                    card.classList.remove('completed');
-                    statusText.textContent = 'Not started';
-                    button.textContent = 'Start';
-                    button.classList.remove('completed');
-                }
+            audio.play().then(() => {
+                currentAudio = audio;
+                showAudioNotification(`Playing ${type} sounds...`);
+                updateAudioButtonState(type, true);
+            }).catch(error => {
+                console.error("Audio playback failed:", error);
+                alert("Audio playback failed. The browser may require a user action (like a click) to start playing media.");
+                updateAudioButtonState(type, false);
             });
         }
 
-        // Show completion message
-        function showCompletionMessage(questId) {
-            const messages = [
-                "Great job reaching out! Connection is a powerful tool for wellness.",
-                "Thank you for checking in with your feelings. Self-awareness is the first step to emotional health.",
-                "Breathing exercises can help calm your mind. Remember this technique whenever you feel overwhelmed.",
-                "Practicing gratitude can shift your perspective. What you focus on grows.",
-                "Movement is medicine for the mind. Your body and mind thank you.",
-                "Taking time to relax is essential for mental health. You deserve this moment of peace.",
-                "Positive affirmations can rewire your thinking patterns. You are worthy and capable.",
-                "Recognizing small wins builds momentum for bigger achievements. Every step counts.",
-                "Having something to look forward to can brighten your days. Anticipation is a joy in itself.",
-                "Reflection helps you recognize your growth. You've come a long way on your wellness journey."
-            ];
-            
-            const notification = document.getElementById('notification');
-            notification.textContent = messages[questId - 1];
-            notification.classList.add('show');
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
+        function stopCurrentAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+                updateAudioButtonState(null, false);
+                const notification = document.getElementById('audioNotification');
                 notification.classList.remove('show');
-            }, 5000);
-        }
-
-        // Breathing exercise
-        function startBreathingExercise() {
-            const circle = document.getElementById('breathingCircle');
-            const text = document.getElementById('breathingText');
-            const startButton = document.getElementById('startBreathing');
-            const completeButton = document.getElementById('completeQuest3');
-            let inhaling = true;
-            
-            if (breathingInterval) {
-                clearInterval(breathingInterval);
-                breathingInterval = null;
-                circle.classList.remove('inhale');
-                text.textContent = 'Breathe In';
-                startButton.textContent = 'Start Exercise';
-                completeButton.style.display = 'none';
-                return;
             }
-            
-            circle.classList.add('inhale');
-            text.textContent = 'Breathe In';
-            startButton.textContent = 'Stop Exercise';
-            completeButton.style.display = 'inline-block';
-            
-            breathingInterval = setInterval(() => {
-                if (inhaling) {
-                    circle.classList.remove('inhale');
-                    text.textContent = 'Breathe Out';
-                } else {
-                    circle.classList.add('inhale');
-                    text.textContent = 'Breathe In';
-                }
-                inhaling = !inhaling;
-            }, 4000);
         }
 
-        // Play audio (simulated)
-        // Enhanced playAudio function
-function playAudio(type) {
-    // 1. Check if we are clicking the currently playing sound
-    if (currentAudioType === type && currentAudioObj) {
-        if (currentAudioObj.paused) {
-            currentAudioObj.play();
-            updateAudioUI(type, true);
-        } else {
-            currentAudioObj.pause();
-            updateAudioUI(type, false);
+        function showAudioNotification(message) {
+            const notification = document.getElementById('audioNotification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => { notification.classList.remove('show'); }, 5000);
         }
-        return;
-    }
 
-    // 2. Stop any existing audio
-    stopCurrentAudio();
+        function updateAudioButtonState(type, isPlaying) {
+            document.querySelectorAll('.audio-button').forEach(btn => {
+                btn.classList.remove('playing');
+            });
+            if (isPlaying) {
+                const activeBtn = document.getElementById(
+                    type === 'rain' ? 'playRain' : 
+                    type === 'ocean' ? 'playOcean' : 
+                    'playForest' 
+                );
+                if (activeBtn) activeBtn.classList.add('playing');
+            }
+        }
 
-    // 3. Start new audio
-    currentAudioType = type;
-    currentAudioObj = new Audio(audioSources[type]);
-    currentAudioObj.loop = true; // Loop the sound
-    
-    // Play and handle potential browser autoplay restrictions
-    currentAudioObj.play().then(() => {
-        updateAudioUI(type, true);
-        
-        // Show notification
-        const messages = {
-            rain: "Playing soothing rain...",
-            ocean: "Playing ocean waves...",
-            forest: "Playing forest ambience..."
-        };
-        const notification = document.getElementById('audioNotification');
-        notification.textContent = messages[type];
-        notification.classList.add('show');
-        setTimeout(() => notification.classList.remove('show'), 3000);
-        
-    }).catch(e => {
-        console.error("Audio playback failed:", e);
-        alert("Audio could not play. Please check your internet connection.");
-    });
-}
-
-// Helper to stop audio completely
-function stopCurrentAudio() {
-    if (currentAudioObj) {
-        currentAudioObj.pause();
-        currentAudioObj.currentTime = 0;
-    }
-    currentAudioObj = null;
-    currentAudioType = null;
-    
-    // Reset all buttons
-    document.querySelectorAll('.audio-button').forEach(btn => {
-        btn.classList.remove('playing');
-        // Reset icons if you want to swap play/pause icons, 
-        // but for now we'll just keep the type icons (cloud, water, tree)
-    });
-}
-
-// Helper to update the button UI
-function updateAudioUI(type, isPlaying) {
-    // Reset all buttons first
-    document.querySelectorAll('.audio-button').forEach(btn => {
-        btn.classList.remove('playing');
-    });
-
-    if (isPlaying) {
-        const activeBtn = document.getElementById(
-            type === 'rain' ? 'playRain' : 
-            type === 'ocean' ? 'playOcean' : 'playForest'
-        );
-        if (activeBtn) activeBtn.classList.add('playing');
-    }
-}
-
-        // Show new affirmation
         function showNewAffirmation() {
             const affirmations = [
                 "I am worthy of love and respect.",
@@ -2224,134 +1909,108 @@ function updateAudioUI(type, isPlaying) {
                 "I am open to positive experiences.",
                 "I trust in my ability to navigate difficult emotions."
             ];
-            
             const randomIndex = Math.floor(Math.random() * affirmations.length);
             document.getElementById('affirmationText').textContent = affirmations[randomIndex];
         }
-// Function to handle audio playback
-function playAudio(type) {
-    // 1. If clicking the same active button, toggle it off
-    if (currentAudioType === type && currentAudioObj) {
-        if (currentAudioObj.paused) {
-            currentAudioObj.play();
-            updateAudioUI(type, true);
-        } else {
-            stopCurrentAudio(); // Pause and reset
+
+        function showCelebration() {
+            document.getElementById('celebrationModal').style.display = 'flex';
+            startConfetti();
+            celebrationShown = true;
+            localStorage.setItem('celebrationShown', JSON.stringify(true));
         }
-        return;
-    }
 
-    // 2. Stop any currently playing audio before starting new one
-    stopCurrentAudio();
+        let confettiInterval = null;
+        let confettiCanvas = null;
+        let confettiContext = null;
 
-    // 3. Setup and play the new sound
-    currentAudioType = type;
-    currentAudioObj = new Audio(audioSources[type]);
-    currentAudioObj.loop = true; // Make it loop indefinitely
-    
-    currentAudioObj.play().then(() => {
-        updateAudioUI(type, true);
-        
-        // Show a temporary notification
-        const messages = {
-            rain: "Playing heavy rain...",
-            ocean: "Playing ocean waves...",
-            forest: "Playing forest ambience..."
-        };
-        showAudioNotification(messages[type]);
-    }).catch(e => {
-        console.error("Audio play failed:", e);
-        showAudioNotification("Could not play audio. Check connection.");
-    });
-}
-
-// Helper to stop audio and reset state
-function stopCurrentAudio() {
-    if (currentAudioObj) {
-        currentAudioObj.pause();
-        currentAudioObj.currentTime = 0; // Reset to start
-    }
-    currentAudioObj = null;
-    currentAudioType = null;
-    
-    // Remove "playing" style from all buttons
-    document.querySelectorAll('.audio-button').forEach(btn => {
-        btn.classList.remove('playing');
-        btn.style.transform = 'scale(1)';
-        btn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
-    });
-}
-
-// Helper to update button styles (Visual feedback)
-function updateAudioUI(type, isPlaying) {
-    if (isPlaying) {
-        const btnId = type === 'rain' ? 'playRain' : (type === 'ocean' ? 'playOcean' : 'playForest');
-        const btn = document.getElementById(btnId);
-        if (btn) {
-            btn.classList.add('playing');
-            btn.style.transform = 'scale(1.1)';
-            btn.style.boxShadow = '0 0 15px var(--accent-color)';
+        function initConfetti() {
+            confettiCanvas = document.getElementById('confetti-canvas');
+            confettiContext = confettiCanvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
         }
-    }
-}
 
-// Helper for notifications
-function showAudioNotification(msg) {
-    const notification = document.getElementById('audioNotification');
-    if (notification) {
-        notification.textContent = msg;
-        notification.classList.add('show');
-        setTimeout(() => notification.classList.remove('show'), 3000);
-    }
-}
-// Add this function to handle quest completion
-function completeQuest(questId) {
-    // Only add to completed quests if not already completed
-    if (!completedQuests.includes(questId)) {
-        completedQuests.push(questId);
-        localStorage.setItem('completedQuests', JSON.stringify(completedQuests));
-        updateProgress();
-        updateQuestCards();
-    }
-    
-    showCompletionMessage(questId);
-    closeModal();
-    
-    // Check if all quests are completed and show celebration
-    if (completedQuests.length === 10 && !celebrationShown) {
-        showCelebration();
-    }
-}
-
-// Update the updateProgress function to ensure it works correctly
-function updateProgress() {
-    const progress = completedQuests.length;
-    const percentage = (progress / 10) * 100;
-    
-    document.getElementById('progressFill').style.width = `${percentage}%`;
-    document.getElementById('progressText').textContent = `${progress}/10`;
-}
-
-// Update the updateQuestCards function to properly mark completed quests
-function updateQuestCards() {
-    document.querySelectorAll('.quest-card').forEach(card => {
-        const questId = parseInt(card.dataset.quest);
-        const statusText = card.querySelector('.quest-status-text');
-        const button = card.querySelector('.quest-button');
-        
-        if (completedQuests.includes(questId)) {
-            card.classList.add('completed');
-            statusText.textContent = 'Completed';
-            button.textContent = 'Redo';
-            button.classList.add('completed');
-        } else {
-            card.classList.remove('completed');
-            statusText.textContent = 'Not started';
-            button.textContent = 'Start';
-            button.classList.remove('completed');
+        function resizeCanvas() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            confettiCanvas.style.position = 'fixed';
+            confettiCanvas.style.top = '0';
+            confettiCanvas.style.left = '0';
+            confettiCanvas.style.pointerEvents = 'none';
+            confettiCanvas.style.zIndex = '3001';
         }
-    });
-}
+
+        function createConfettiPiece() {
+            const colors = ['#ffd700', '#f4a460', '#8fbc8f', '#4a7c59', '#66bb6a'];
+            return {
+                x: Math.random() * confettiCanvas.width,
+                y: -10,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 5 + 3,
+                speed: Math.random() * 3 + 1,
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 2 - 1,
+                tilt: Math.random() * 10 - 5,
+                tiltAngle: 0,
+                tiltSpeed: Math.random() * 0.1
+            };
+        }
+
+        let confettiPieces = [];
+
+        function drawConfetti() {
+            if (!confettiContext) return;
+            confettiContext.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            for (let i = 0; i < confettiPieces.length; i++) {
+                const p = confettiPieces[i];
+                p.y += p.speed;
+                p.tiltAngle += p.tiltSpeed;
+                p.tilt = Math.sin(p.tiltAngle) * 10;
+                p.rotation += p.rotationSpeed;
+
+                confettiContext.save();
+                confettiContext.translate(p.x, p.y);
+                confettiContext.rotate(p.rotation * Math.PI / 180);
+                confettiContext.fillStyle = p.color;
+                confettiContext.fillRect(-p.size / 2 + p.tilt, -p.size / 2, p.size, p.size);
+                confettiContext.restore();
+            }
+            confettiPieces = confettiPieces.filter(p => p.y < confettiCanvas.height);
+        }
+
+        function startConfetti() {
+            if (!confettiCanvas) initConfetti();
+            stopConfetti();
+            confettiPieces = [];
+            
+            for(let i = 0; i < 50; i++) {
+                confettiPieces.push(createConfettiPiece());
+            }
+
+            confettiInterval = setInterval(() => {
+                for(let i = 0; i < 5; i++) {
+                    confettiPieces.push(createConfettiPiece());
+                }
+                drawConfetti();
+            }, 50);
+            
+            setTimeout(stopConfetti, 10000); 
+        }
+
+        function stopConfetti() {
+            if (confettiInterval) {
+                clearInterval(confettiInterval);
+                confettiInterval = null;
+            }
+            if (confettiContext) {
+                confettiContext.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            }
+        }
+
+        if (document.getElementById('confetti-canvas')) {
+            initConfetti();
+        }
     </script>
 </body>
 </html>
