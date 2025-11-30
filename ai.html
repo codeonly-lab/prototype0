@@ -123,8 +123,7 @@
         const SYSTEM_INSTRUCTION = {
             parts: [{ text: "You are a highly empathetic, concise, and helpful AI Companion for an individual with mixed physical and cognitive disabilities. Your tone should be supportive, non-judgemental, and clear. If you receive an image, prioritize describing the objects, text, and context in a simple, direct manner. **Always use simple Markdown formatting, such as bolding key terms or using double line breaks to separate ideas, to improve readability.** If the user expresses distress, offer gentle comfort or suggest a practical next step (like contacting a named emergency contact)." }]
         };
-        const SHORTCUT_THRESHOLD_MS = 500; // Max time between key presses for the shortcut
-        // -------------------------
+        const SHORTCUT_THRESHOLD_MS = 500; 
 
      
         let messages = [
@@ -176,9 +175,9 @@
 
        
         const formatMarkdown = (text) => {
-            // 1. Handle bold text: **text** -> <strong>text</strong>
+   
             let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // 2. Handle line breaks: \n -> <br/>
+           
             html = html.replace(/\n/g, '<br/>');
             return html;
         };
@@ -635,4 +634,5 @@
 </body>
 
 </html>
+
 
