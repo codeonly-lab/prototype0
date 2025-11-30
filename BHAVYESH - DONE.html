@@ -11,7 +11,6 @@
     <script src='https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js'></script>
 
     <style>
-        /* Optional: Apply Tailwind base styles to body for better rendering */
         body {
             @apply bg-slate-950;
         }
@@ -21,13 +20,10 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // Start of App.jsx content, now wrapped in a Babel script tag.
 
         const { useEffect, useRef, useState, useCallback, useMemo } = React;
 
-        /* -----------------------
-            Accessibility-first Assistify (Single File)
-        ----------------------- */
+     
 
         function speak(text, opts = {}) {
             try {
@@ -38,7 +34,7 @@
                 if (opts.pitch) u.pitch = opts.pitch;
                 window.speechSynthesis.speak(u);
             } catch (e) {
-                // swallow
+               
             }
         }
 
@@ -50,9 +46,7 @@
             }
         }
 
-        /* -----------------------
-            Small UI primitives
-        ----------------------- */
+
         const Header = ({ onHelp }) => (
             <header className="w-full max-w-5xl mx-auto p-4 flex items-center justify-between bg-slate-900 rounded-b-2xl shadow-lg">
                 <div className="flex items-center gap-3">
@@ -82,17 +76,15 @@
             </header>
         );
 
-        /* -----------------------
-            Modal container (accessible)
-        ----------------------- */
+       
         const Modal = ({ title, onClose, children }) => {
             useEffect(() => {
                 const onKey = (e) => {
-                    if (e.key === "Escape") onClose();
+                    if (e.key === "Escape" && title !== "Live Captions") onClose();
                 };
                 document.addEventListener("keydown", onKey);
                 return () => document.removeEventListener("keydown", onKey);
-            }, [onClose]);
+            }, [onClose, title]);
 
             return (
                 <div
@@ -128,11 +120,7 @@
             );
         };
 
-        /* -----------------------
-            Features
-        ----------------------- */
 
-        /* 1) Text Reader (Tesseract.js OCR) */
         const TextReader = ({ onClose, voiceCommand, setVoiceCommand }) => {
             const [text, setText] = useState("");
             const [isTesseractAvailable, setIsTesseractAvailable] = useState(false);
@@ -140,7 +128,6 @@
             const inputRef = useRef(null);
 
             useEffect(() => {
-                // Check if Tesseract is available globally
                 if (window.Tesseract && typeof window.Tesseract.recognize === 'function') {
                     setIsTesseractAvailable(true);
                     setOcrStatus("OCR Library loaded.");
@@ -260,7 +247,6 @@
                             </button>
                             <button
                                 onClick={() => {
-                                    // Use modern clipboard API if available, otherwise a warning/fallback.
                                     if (navigator.clipboard) {
                                         navigator.clipboard.writeText(text || "")
                                             .then(() => {
@@ -289,12 +275,56 @@
             );
         };
 
-        /* 2) Live Captions (SpeechRecognition) */
-        const LiveCaptions = ({ onClose, voiceCommand, setVoiceCommand }) => {
+        const LiveCaptions = ({ onClose, voiceCommand, setVoiceCommand, setIsGlobalListening }) => {
             const [listening, setListening] = useState(false);
             const [captions, setCaptions] = useState("");
             const recognitionRef = useRef(null);
             const isSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+            const escapeCountRef = useRef(0); 
+            
+           
+            useEffect(() => {
+               
+                setIsGlobalListening(false);
+                
+             
+                return () => {
+                   
+                    setIsGlobalListening(false); 
+                };
+            }, [setIsGlobalListening]);
+
+            useEffect(() => {
+              
+                const onKey = (e) => {
+                    if (e.key === "Escape") {
+                        escapeCountRef.current += 1;
+                        
+                        if (escapeCountRef.current >= 3) {
+                            speak("Exiting live captions.");
+                            vibrate([200, 50, 200]);
+                           
+                            const rec = recognitionRef.current;
+                            if (rec) {
+                                try { rec.stop(); } catch(err) {}
+                            }
+                            onClose(); 
+                            escapeCountRef.current = 0;
+                        } else {
+                           
+                            speak(`Press Escape ${3 - escapeCountRef.current} more times to exit.`);
+                        }
+                    } else {
+                        escapeCountRef.current = 0; 
+                    }
+                };
+
+                document.addEventListener("keydown", onKey);
+                
+                return () => {
+                    document.removeEventListener("keydown", onKey);
+                };
+            }, [onClose]); 
 
             const toggle = useCallback(() => {
                 const rec = recognitionRef.current;
@@ -333,6 +363,7 @@
                 rec.continuous = true;
                 rec.interimResults = true;
                 rec.lang = "en-US";
+              
                 rec.onresult = (ev) => {
                     let interim = "";
                     let final = "";
@@ -340,16 +371,14 @@
                         if (ev.results[i].isFinal) final += ev.results[i][0].transcript + " ";
                         else interim += ev.results[i][0].transcript;
                     }
-                    // Only update if there is new content to avoid flickering
                     if (final || interim) {
                          setCaptions((prev) => {
-                            // Split final text and interim text
-                            const finalParts = prev.split('\n');
-                            const currentFinalText = finalParts[0] || '';
-                            
-                            // Remove old interim text and append new final/interim text
-                            const newFinal = currentFinalText + final;
-                            const newCaptions = newFinal.trim() + (interim ? `\n(Listening: ${interim})` : "");
+                          
+                            const lastNewlineIndex = prev.lastIndexOf('\n');
+                            const currentPermanentFinalText = (lastNewlineIndex === -1 ? prev : prev.substring(0, lastNewlineIndex)).trim(); 
+
+                            const newFinalText = (currentPermanentFinalText + " " + final).trim();
+                            const newCaptions = newFinalText + (interim ? `\n(Listening: ${interim})` : "");
                             return newCaptions;
                         });
                     }
@@ -361,7 +390,6 @@
                 };
                 rec.onend = () => {
                     if (listening) {
-                        // Attempt to restart if it ended unexpectedly while listening was supposed to be true
                         console.log("Recognition ended. Restarting.");
                         try {
                             rec.start();
@@ -377,7 +405,7 @@
                         rec.stop();
                     } catch (e) {}
                 };
-            }, [isSupported, listening]); // Added listening as dependency to support onend restart logic
+            }, [isSupported, listening]);
 
             useEffect(() => {
                 if (voiceCommand?.command === 'start_captions' && !listening) {
@@ -391,7 +419,10 @@
 
             return (
                 <div>
-                    <p className="text-slate-300 mb-2">Live captions display below. Use the Start/Stop button — captions stay local to your browser.</p>
+                    <p className="text-slate-300 mb-2">
+                        Live captions display below. Use the Start/Stop button — captions stay local to your browser.
+                        <span className="font-bold text-yellow-400 block mt-1">Press the 'Escape' key three times to exit.</span>
+                    </p>
                     <div className="bg-black rounded-lg p-4 min-h-[140px] overflow-auto">
                         <pre className="whitespace-pre-wrap text-lg text-yellow-200">{captions || "No captions yet."}</pre>
                     </div>
@@ -400,7 +431,7 @@
                             onClick={toggle}
                             className={`flex-1 px-4 py-3 rounded-lg font-bold ${listening ? "bg-red-600 text-white" : "bg-yellow-400 text-slate-900"}`}
                             aria-pressed={listening}
-                            aria-label={listening ? "Stop captions (Voice command: Stop captions)" : "Start captions (Voice command: Start captions)"}
+                            aria-label={listening ? "Stop captions" : "Start captions"}
                             disabled={!isSupported}
                         >
                             {listening ? "Stop Captions" : "Start Captions"}
@@ -421,26 +452,24 @@
             );
         };
 
-        // Mock function to simulate a successful API response
         const mockAnalyzeScene = () => {
             return new Promise(resolve => {
                 setTimeout(() => {
                     resolve({
                         text: "Mock Analysis (API Key Error Fallback): This appears to be a common scene. I can detect a wooden desk, a laptop, a coffee mug, and some papers. The laptop screen shows a code editor, suggesting the user is working. The scene is well-lit by overhead lighting."
                     });
-                }, 1500); // Simulate network latency
+                }, 1500); 
             });
         };
 
 
-        /* 3) Object Describer (Gemini Vision API) */
+        
         const ObjectDescriber = ({ onClose, voiceCommand, setVoiceCommand }) => {
             const videoRef = useRef(null);
             const canvasRef = useRef(null);
             const [analysis, setAnalysis] = useState("Awaiting camera stream.");
             const [isStreaming, setIsStreaming] = useState(false);
 
-            // Access camera stream
             useEffect(() => {
                 let mounted = true;
                 (async () => {
@@ -478,7 +507,7 @@
                     return;
                 }
 
-                // 1. Capture Base64 Image
+          
                 c.width = v.videoWidth;
                 c.height = v.videoHeight;
                 const ctx = c.getContext("2d");
@@ -498,9 +527,9 @@
                 speak("Sending image for powerful description.");
                 vibrate([30]);
 
-                // 2. Prepare API Call
+              
                 const userPrompt = "Describe this scene in detail, identifying all key objects and their spatial relationship. Provide a concise, helpful summary for an assisted user.";
-                // NOTE: Using a placeholder API key. This will likely trigger the 403 fallback.
+              
                 const apiKey = "AIzaSyA7EKvO9rpX79RUU0vcTPny6nCJjAzu7zo"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
@@ -519,7 +548,7 @@
                     }],
                 };
 
-                // 3. Execute with backoff and enhanced error reporting
+               
                 let resultText = "Analysis failed or returned empty.";
                 let finalStatus = null; 
                 const maxRetries = 3;
@@ -538,7 +567,6 @@
                             const errorBody = await response.text();
                             console.error(`Attempt ${attempt + 1}: API call failed with status ${response.status}. Response Body:`, errorBody);
 
-                            // CRITICAL: If 403 (Forbidden), stop and use fallback
                             if (response.status === 403) {
                                     useFallback = true;
                                     throw new Error(`Critical API Error: Status ${response.status}. Using fallback.`);
@@ -560,7 +588,7 @@
 
                         if (text) {
                             resultText = text;
-                            break; // Success
+                            break; 
                         }
 
                     } catch (error) {
@@ -577,7 +605,7 @@
                     }
                 }
 
-                // 4. Fallback or Update UI/TTS
+               
                 if (useFallback) {
                     setAnalysis("API Key Forbidden (403) error detected. Running mock analysis to preserve functionality...");
                     const mockResult = await mockAnalyzeScene();
@@ -670,7 +698,7 @@
                 vibrate([40]);
             }, [tasks]);
 
-            // Voice Command Handler for Tasks
+          
             useEffect(() => {
                 if (!voiceCommand) return;
 
@@ -683,7 +711,6 @@
                         setVoiceCommand(null);
                     } else {
                         speak("What task would you like to add?");
-                        // Focus the input for manual entry or wait for next command
                         inputRef.current?.focus();
                         setVoiceCommand(null); 
                     }
@@ -798,9 +825,7 @@
 
                 setStatus("Alert simulated. Opening share options...");
                 speak("Emergency alert initiated.");
-                vibrate([500, 50, 500]); // Strong vibration for alert
-
-                // Use Web Share API for native sharing options on mobile
+                vibrate([500, 50, 500]);              
                 if (navigator.share) {
                     try {
                         await navigator.share({
@@ -810,7 +835,7 @@
                         });
                         setStatus("Alert shared successfully via device options.");
                     } catch (error) {
-                         if (error.name !== 'AbortError') { // User cancelled the share operation
+                         if (error.name !== 'AbortError') {
                             setStatus(`Sharing failed: ${error.name}. You can copy the link manually.`);
                         } else {
                             setStatus("Sharing cancelled by user. Link ready to copy.");
@@ -821,7 +846,6 @@
                 }
             }, [location]);
 
-            // Voice Command Handler for Emergency
             useEffect(() => {
                 if (!voiceCommand) return;
                 const commandText = voiceCommand.command;
@@ -882,7 +906,7 @@
         /* -----------------------
             Voice Command Handler (Main Listener)
         ----------------------- */
-        const VoiceCommandHandler = ({ setVoiceCommand, setIsListening, isListening, setActiveFeature, features }) => {
+        const VoiceCommandHandler = ({ setVoiceCommand, setIsListening, isListening, setActiveFeature, features, activeFeature }) => {
             const recognitionRef = useRef(null);
             const isSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
@@ -895,7 +919,7 @@
 
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const rec = new SpeechRecognition();
-                rec.continuous = false; // Only listen for one command at a time
+                rec.continuous = false; 
                 rec.interimResults = false;
                 rec.lang = "en-US";
 
@@ -908,7 +932,7 @@
                     const transcript = event.results[0][0].transcript.toLowerCase().trim();
                     console.log("Command heard:", transcript);
 
-                    // 1. Check for global navigation commands
+                   
                     const featureMap = {
                         'open reader': 'reader',
                         'open text reader': 'reader',
@@ -938,16 +962,17 @@
                         vibrate([40]);
                     } 
                     
-                    // 2. Pass command to active feature for context-specific actions
+        
                     else if (transcript) {
-                        // Standardize and pass the command for component-level parsing
+                    
                         let commandName = null;
                         let text = transcript;
 
                         if (transcript.includes('read aloud') || transcript.includes('read the text')) {
                             commandName = 'read';
                         } else if (transcript.includes('start captions')) {
-                            commandName = 'start_captions';
+                          
+                            commandName = 'start_captions'; 
                         } else if (transcript.includes('stop captions')) {
                             commandName = 'stop_captions';
                         } else if (transcript.includes('analyze scene') || transcript.includes('describe this')) {
@@ -957,14 +982,12 @@
                         } else if (transcript.includes('send alert') || transcript.includes('emergency alert')) {
                             commandName = 'send_alert';
                         } else if (transcript.startsWith('add task') || transcript.startsWith('new task') || transcript.startsWith('complete task') || transcript.startsWith('delete task')) {
-                            // Complex task commands handled with full text
                             setVoiceCommand({ command: 'task_helper', text: transcript });
                             return; 
                         }
                         
                         if (commandName) {
                             setVoiceCommand({ command: commandName, text: text });
-                            // The component handles the speak/vibrate logic.
                         } else {
                             speak("Command not recognized. Try saying 'Open Reader' or 'Help'.");
                         }
@@ -973,9 +996,7 @@
 
                 rec.onerror = (event) => {
                     console.error('Speech Recognition Error:', event.error);
-                    // if (event.error !== 'no-speech') {
-                    //     speak("Voice command error. Please try again.");
-                    // }
+                    
                     setIsListening(false);
                 };
                 
@@ -998,11 +1019,9 @@
                 }
             };
             
-            // Keep the listener alive if a single command failed due to 'no-speech' or timeout.
-            // This is a common pattern for continuous, hands-free operation.
             useEffect(() => {
                  const rec = recognitionRef.current;
-                 if (isSupported && !isListening && rec) {
+                 if (isSupported && !isListening && rec && !activeFeature) {
                     const timeout = setTimeout(() => {
                          try { 
                              rec.start(); 
@@ -1012,7 +1031,7 @@
                     }, 500);
                     return () => clearTimeout(timeout);
                  }
-            }, [isListening, isSupported]);
+            }, [isListening, isSupported, activeFeature]); 
 
 
             return (
@@ -1043,7 +1062,7 @@
 
         const FeatureList = [
             { id: "reader", name: "Text Reader (OCR)", icon: "📖", component: TextReader, description: "Reads text aloud from images or pasted text. Say 'Read' to start." },
-            { id: "captions", name: "Live Captions", icon: "💬", component: LiveCaptions, description: "Transcribes spoken audio into on-screen text. Say 'Start captions' or 'Stop captions'." },
+            { id: "captions", name: "Live Captions", icon: "💬", component: LiveCaptions, description: "Transcribes spoken audio into on-screen text. Press 'Escape' three times to exit." },
             { id: "describer", name: "Object Describer", icon: "👁️", component: ObjectDescriber, description: "Uses AI (Gemini) to describe your camera view. Say 'Analyze scene'." },
             { id: "tasks", name: "Task Helper", icon: "✅", component: TaskHelper, description: "Simple task list with voice commands. Say 'Add task' or 'Complete task number 1'." },
             { id: "emergency", name: "Emergency Location", icon: "🚨", component: Emergency, description: "Quick access to location and alert sharing. Say 'Find location' or 'Send alert'." }
@@ -1052,7 +1071,6 @@
         function App() {
             const [activeFeature, setActiveFeature] = useState(null);
             const [isListening, setIsListening] = useState(false);
-            // This state holds the command parsed by the global listener to be executed by the active feature
             const [voiceCommand, setVoiceCommand] = useState(null); 
 
             const ActiveComponent = useMemo(() => {
@@ -1075,7 +1093,7 @@
             const handleHelp = () => {
                 if (activeFeature) {
                     const currentFeature = FeatureList.find(f => f.id === activeFeature);
-                    speak(`${currentFeature.name} is currently open. The main voice command is: ${currentFeature.description.split('. Say')[1]?.replace(/'/g, "") || 'No specific voice command listed.'}`);
+                    speak(`${currentFeature.name} is currently open. The main action is: ${currentFeature.description.split('. Say')[0].replace(/'/g, "") || 'No specific voice command listed.'}.`);
                 } else {
                     speak("Main screen. Say 'Open' followed by the tool name, like 'Open Reader' or 'Open Captions'.");
                 }
@@ -1097,6 +1115,7 @@
                                         onClose={handleFeatureClose} 
                                         voiceCommand={voiceCommand}
                                         setVoiceCommand={setVoiceCommand}
+                                        setIsGlobalListening={activeFeature === 'captions' ? setIsListening : undefined}
                                     />
                                 )}
                             </Modal>
@@ -1123,6 +1142,7 @@
                                          <li>To open a tool: Say **"Open [Tool Name]"** (e.g., **"Open Reader"**).</li>
                                          <li>To exit a tool: Say **"Close tool"** or **"Go back"**.</li>
                                          <li>Inside a tool, use specific commands (e.g., **"Read"**, **"Analyze scene"**, **"Add task buy milk"**).</li>
+                                         <li>**NOTE**: To exit **Live Captions**, you must press **Escape three times**.</li>
                                      </ul>
                                 </div>
                             </section>
@@ -1135,6 +1155,7 @@
                         isListening={isListening}
                         setActiveFeature={setActiveFeature}
                         features={FeatureList}
+                        activeFeature={activeFeature} 
                     />
                 </div>
             );
@@ -1142,7 +1163,7 @@
 
         ReactDOM.render(<App />, document.getElementById('root'));
 
-        // End of Babel script tag.
+     
     </script>
 </body>
 </html>
