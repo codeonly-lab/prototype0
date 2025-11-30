@@ -660,7 +660,7 @@
             );
         };
 
-        /* 4) Task Helper (localStorage) */
+    
         const TaskHelper = ({ onClose, voiceCommand, setVoiceCommand }) => {
             const [tasks, setTasks] = useState(() => {
                 try {
@@ -903,9 +903,7 @@
         };
 
 
-        /* -----------------------
-            Voice Command Handler (Main Listener)
-        ----------------------- */
+    
         const VoiceCommandHandler = ({ setVoiceCommand, setIsListening, isListening, setActiveFeature, features, activeFeature }) => {
             const recognitionRef = useRef(null);
             const isSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
@@ -1056,9 +1054,7 @@
         };
 
 
-        /* -----------------------
-            Main App Component
-        ----------------------- */
+       
 
         const FeatureList = [
             { id: "reader", name: "Text Reader (OCR)", icon: "📖", component: TextReader, description: "Reads text aloud from images or pasted text. Say 'Read' to start." },
