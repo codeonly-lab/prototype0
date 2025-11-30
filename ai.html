@@ -6,17 +6,16 @@
     <title>AI Companion Chat (HTML)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for better scrollability and layout */
+ 
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
         #chat-window {
-            height: calc(100vh - 180px); /* Adjust based on header and input size */
+            height: calc(100vh - 180px); 
             overflow-y: auto;
             scroll-behavior: smooth;
         }
-        /* Custom scrollbar for a cleaner look */
         #chat-window::-webkit-scrollbar {
             width: 8px;
         }
@@ -27,7 +26,7 @@
         #chat-window::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
-        /* Style for the mirrored video feed */
+   
         #video-feed {
             transform: scaleX(-1);
         }
@@ -117,8 +116,7 @@
     </div>
 
     <script type="module">
-        // --- API CONFIGURATION ---
-        // API Key inserted by Gemini
+    
         const API_KEY = "AIzaSyA7EKvO9rpX79RUU0vcTPny6nCJjAzu7zo"; 
         const MODEL_NAME = 'gemini-2.5-flash-preview-09-2025';
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
@@ -128,7 +126,7 @@
         const SHORTCUT_THRESHOLD_MS = 500; // Max time between key presses for the shortcut
         // -------------------------
 
-        // --- GLOBAL STATE ---
+     
         let messages = [
             { id: 1, sender: 'bot', text: "Hi, I'm here for you. Tap the microphone (or **triple-tap Q**) to speak, the camera to activate vision assistance (or **triple-tap Shift**), or type a message." }
         ];
@@ -137,12 +135,11 @@
         let isLoading = false;
         let isCameraActive = false;
         let stream = null;
-                // Shortcut trackers
+            
         const shiftPresses = { count: 0, lastPress: 0 };
         const qPresses = { count: 0, lastPress: 0 };
                 let recognition = null;
 
-        // --- DOM REFERENCES ---
         const $chatWindow = document.getElementById('chat-window');
         const $inputText = document.getElementById('input-text');
         const $micButton = document.getElementById('mic-button');
@@ -156,11 +153,8 @@
         const $statusText = document.getElementById('status-text');
         const $infoText = document.getElementById('info-text');
 
-        // --- UTILITY FUNCTIONS ---
 
-        /**
-         * Exponential Backoff and API Calling
-         */
+    
         const fetchWithRetry = async (url, options, maxRetries = 5) => {
             for (let i = 0; i < maxRetries; i++) {
                 try {
@@ -180,9 +174,7 @@
             }
         };
 
-        /**
-         * Simple Markdown Renderer (Supports bold and newlines)
-         */
+       
         const formatMarkdown = (text) => {
             // 1. Handle bold text: **text** -> <strong>text</strong>
             let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -191,9 +183,6 @@
             return html;
         };
 
-        /**
-         * GEMINI API SERVICE
-         */
         const callGeminiAPI = async (userText, imageForAnalysis = null) => {
             const parts = [{ text: userText }];
 
@@ -226,11 +215,8 @@
                 return "I experienced an error connecting to my server. Please check your connection or try again shortly.";
             }
         };
-
-        // --- RENDERING & STATE UPDATES ---
-
         const updateUI = () => {
-            // 1. Mic Button State
+           
             if (isListening) {
                 $micButton.classList.add('bg-red-500', 'text-white', 'scale-110', 'ring-4', 'ring-red-200');
                 $micButton.classList.remove('bg-slate-100', 'text-slate-600', 'hover:bg-slate-200');
@@ -249,7 +235,7 @@
                 }
             }
 
-            // 2. Camera Button State
+       
             if (isCameraActive) {
                 $cameraToggleButton.classList.add('bg-red-600', 'text-white', 'animate-pulse');
                 $cameraToggleButton.classList.remove('bg-slate-100', 'text-slate-600', 'hover:bg-slate-200');
@@ -263,7 +249,7 @@
                 $cameraContainer.classList.add('hidden');
                 $infoText.textContent = 'Camera Inactive. Triple-tap Shift for instant vision description.';
             }
-                        // 3. Speaking/Loading State
+                      
             if (isSpeaking) {
                 $stopSpeakingButton.classList.remove('hidden');
                 $stopSpeakingButton.classList.add('flex');
@@ -281,7 +267,6 @@
             } else {
                 $micButton.disabled = false;
                 $cameraToggleButton.disabled = false;
-                // Send button logic based on input or camera
                 $sendButton.disabled = !$inputText.value.trim() && !isCameraActive;
                 if (!isListening) {
                     $statusDot.className = 'w-2 h-2 rounded-full bg-green-500';
@@ -291,7 +276,7 @@
         };
 
         const renderMessages = () => {
-            $chatWindow.innerHTML = ''; // Clear existing messages
+            $chatWindow.innerHTML = '';
             messages.forEach(msg => {
                 const messageHtml = `
                     <div class="flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}">
@@ -325,7 +310,6 @@
                 `;
                 $chatWindow.insertAdjacentHTML('beforeend', messageHtml);
             });
-                        // Add loading indicator
             if (isLoading) {
                 const loadingHtml = `
                     <div class="flex justify-start" id="loading-indicator">
@@ -337,7 +321,6 @@
                 $chatWindow.insertAdjacentHTML('beforeend', loadingHtml);
             }
 
-            // Scroll to bottom
             $chatWindow.scrollTop = $chatWindow.scrollHeight;
         };
 
@@ -346,7 +329,6 @@
             renderMessages();
         };
 
-        // --- SPEECH & AUDIO FUNCTIONS ---
 
         const speakText = (text) => {
             if ('speechSynthesis' in window) {
@@ -380,8 +362,7 @@
             if (isListening) {
                 recognition.stop();
             } else {
-                // If camera is active, we don't start voice recording, we just focus the input
-                // This is to allow speaking the optional prompt for a visual request
+            
                 if (isCameraActive) {
                     $inputText.focus();
                     messages.push({ id: Date.now(), sender: 'bot', text: "Camera is active. Type your question for the frame, or triple-tap **Q** again to stop listening." });
@@ -389,7 +370,7 @@
                     return;
                 }
                                 
-                // If camera is not active, start voice recognition
+            
                 isListening = true;
                 updateAndRender();
                 try {
@@ -404,13 +385,12 @@
             }
         };
 
-        // --- CAMERA & VISION FUNCTIONS ---
                 
         const startCamera = async () => {
             if (isCameraActive) return;
 
             try {
-                // Stop listening if active
+           
                 if (isListening) {
                     recognition.stop(); 
                 }
@@ -445,23 +425,22 @@
                 return;
             }
 
-            // Set canvas dimensions to match current video frame
             $captureCanvas.width = $videoFeed.videoWidth;
             $captureCanvas.height = $videoFeed.videoHeight;
             const ctx = $captureCanvas.getContext('2d');
 
-            // 1. Capture Frame
+
             ctx.drawImage($videoFeed, 0, 0, $captureCanvas.width, $captureCanvas.height);
 
-            // 2. Convert to Base64
+
             const dataUrl = $captureCanvas.toDataURL('image/jpeg', 0.8);
             const mimeType = 'image/jpeg';
             const base64String = dataUrl.split(',')[1];
                         
-            // 3. Determine Prompt
+       
             const userPrompt = text.trim() || "Please describe the surroundings in this frame, focusing on potential hazards, objects, or text.";
                         
-            // 4. Create User Message for display
+        
             const userMsg = { 
                  id: Date.now(), 
                  sender: 'user', 
@@ -473,15 +452,15 @@
             isLoading = true;
             updateAndRender();
 
-            // 5. Stop Camera Feed after capture
-            stopCamera(); // stopCamera updates the UI internally
+           
+            stopCamera();
 
-            // 6. Call API
+          
             try {
                 const imageForAnalysis = { base64: base64String, mimeType: mimeType };
                 const responseText = await callGeminiAPI(userPrompt, imageForAnalysis);
                                  
-                // 7. Add Bot Message & Speak
+               
                 const botMsg = { id: Date.now() + 1, sender: 'bot', text: responseText };
                 messages.push(botMsg);
                 speakText(responseText);
@@ -494,37 +473,32 @@
             }
         };
 
-        // --- MAIN MESSAGE HANDLER ---
+       
         const handleSendMessage = async (textOverride = null) => {
             const text = textOverride || $inputText.value;
                         
             if (isCameraActive) {
-                // If camera is active, capture the frame and send it as multimodal input
                 await captureAndSendFrame(text);
                 return;
             }
                         
-            // --- Text-Only Logic ---
+
             if (!text.trim()) return; 
                          
             stopSpeaking(); 
 
-            // 1. Add User Message
             const userMsg = { id: Date.now(), sender: 'user', text: text };
             messages.push(userMsg);
             $inputText.value = '';
             isLoading = true;
             updateAndRender();
 
-            // 2. Get AI Response
             try {
                 const responseText = await callGeminiAPI(text, null);
-                                
-                // 3. Add Bot Message
+
                 const botMsg = { id: Date.now() + 1, sender: 'bot', text: responseText };
                 messages.push(botMsg);
-                                
-                // 4. Speak it automatically
+         
                 speakText(responseText);
             } catch (error) {
                 console.error("Error during message processing:", error);
@@ -535,13 +509,11 @@
             }
         };
 
-        // --- INITIALIZATION AND EVENT LISTENERS ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Initial render
+          
             updateAndRender();
-                        
-            // Initialize Speech Recognition
+
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (SpeechRecognition) {
                 recognition = new SpeechRecognition();
@@ -552,11 +524,10 @@
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
                     $inputText.value = transcript;
-                    updateUI(); // To enable send button instantly
+                    updateUI();
                     if (!isCameraActive) {
                         handleSendMessage(transcript); 
                     } else {
-                        // If camera is active, we don't automatically send, we let the user press send/capture
                     }
                 };
 
@@ -579,12 +550,12 @@
                 $micButton.disabled = true;
             }
 
-            // Event Listeners
+    
             $micButton.addEventListener('click', toggleListening);
             $stopSpeakingButton.addEventListener('click', stopSpeaking);
             $cameraToggleButton.addEventListener('click', isCameraActive ? stopCamera : startCamera);
                         
-            $inputText.addEventListener('input', updateUI); // Update send button state on text change
+            $inputText.addEventListener('input', updateUI); 
             $inputText.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     handleSendMessage();
@@ -593,7 +564,7 @@
 
             $sendButton.addEventListener('click', () => handleSendMessage());
                         
-            // Dedicated Capture button listener
+    
             document.getElementById('capture-shortcut-button').addEventListener('click', () => {
                 if (isCameraActive && !isLoading) {
                     captureAndSendFrame($inputText.value);
@@ -629,30 +600,29 @@
                     }
                 }
 
-                // --- SHIFT KEY SHORTCUT (Vision Capture) ---
+            
                 if (key === 'Shift' && shiftPresses.count === 3 && !isLoading) {
-                    shiftPresses.count = 0; // Reset after trigger
+                    shiftPresses.count = 0; 
                     if (!isCameraActive) {
                         startCamera().then(() => {
-                            // After camera starts, automatically capture and send an image
-                            // This provides a quick visual description when the user triple-taps
+                           
                             setTimeout(() => {
                                 captureAndSendFrame();
-                            }, 500); // Give the video stream a moment to initialize
+                            }, 500); 
                         });
                     } else {
-                        // If camera is already active, trigger a new capture
+                     
                         captureAndSendFrame($inputText.value);
                     }
                 }
 
-                // --- Q KEY SHORTCUT (Voice Toggle) ---
+               
                 if (lowerKey === 'q' && qPresses.count === 3 && !isLoading) {
-                    qPresses.count = 0; // Reset after trigger
+                    qPresses.count = 0; 
                     toggleListening();
                 }
 
-                // Update last press time for both shortcuts
+            
                 if (key === 'Shift') {
                     shiftPresses.lastPress = now;
                 }
@@ -665,3 +635,4 @@
 </body>
 
 </html>
+
