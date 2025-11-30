@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistify - Accessibility Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src='https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js'></script>
+
+    <style>
+        /* Optional: Apply Tailwind base styles to body for better rendering */
+        body {
+            @apply bg-slate-950;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Start of App.jsx content, now wrapped in a Babel script tag.
+
+        const { useEffect, useRef, useState, useCallback, useMemo } = React;
+
+        /* -----------------------
+            Accessibility-first Assistify (Single File)
+        ----------------------- */
+
+        function speak(text, opts = {}) {
+            try {
+                if (!("speechSynthesis" in window) || !text) return;
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(String(text));
+                if (opts.rate) u.rate = opts.rate;
+                if (opts.pitch) u.pitch = opts.pitch;
+                window.speechSynthesis.speak(u);
+            } catch (e) {
+                // swallow
+            }
+        }
+
+        function vibrate(pattern = [60]) {
+            if (navigator.vibrate) {
+                try {
+                    navigator.vibrate(pattern);
+                } catch (e) {}
+            }
+        }
+
+        /* -----------------------
+            Small UI primitives
+        ----------------------- */
+        const Header = ({ onHelp }) => (
+            <header className="w-full max-w-5xl mx-auto p-4 flex items-center justify-between bg-slate-900 rounded-b-2xl shadow-lg">
+                <div className="flex items-center gap-3">
+                    <div
+                        className="w-12 h-12 rounded-lg bg-yellow-400 flex items-center justify-center text-slate-900 text-xl font-bold"
+                        aria-hidden
+                    >
+                        A I
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-extrabold text-slate-100 leading-tight">Assistify</h1>
+                        <p className="text-sm text-slate-300">Independent accessibility toolkit — voice & camera friendly</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => {
+                            speak("Help: use the grid to open tools. Each tool supports voice or large buttons.");
+                            if (onHelp) onHelp();
+                        }}
+                        className="px-4 py-2 rounded-lg bg-slate-800 text-yellow-400 font-semibold shadow"
+                        aria-label="Help"
+                    >
+                        Help
+                    </button>
+                </div>
+            </header>
+        );
+
+        /* -----------------------
+            Modal container (accessible)
+        ----------------------- */
+        const Modal = ({ title, onClose, children }) => {
+            useEffect(() => {
+                const onKey = (e) => {
+                    if (e.key === "Escape") onClose();
+                };
+                document.addEventListener("keydown", onKey);
+                return () => document.removeEventListener("keydown", onKey);
+            }, [onClose]);
+
+            return (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={title}
+                >
+                    <div
+                        className="absolute inset-0 bg-black/60"
+                        onClick={() => onClose()}
+                        aria-hidden
+                    />
+                    <div className="relative z-10 w-full max-w-3xl bg-slate-900 text-slate-100 rounded-2xl shadow-2xl p-6">
+                        <div className="flex items-start justify-between gap-4">
+                            <h2 className="text-2xl font-bold">{title}</h2>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => {
+                                        speak(`${title} closed`);
+                                        onClose();
+                                    }}
+                                    className="px-4 py-2 rounded-lg bg-slate-800 text-yellow-400 font-semibold"
+                                    aria-label={`Close ${title}`}
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                        <div className="mt-4">{children}</div>
+                    </div>
+                </div>
+            );
+        };
+
+        /* -----------------------
+            Features
+        ----------------------- */
+
+        /* 1) Text Reader (Tesseract.js OCR) */
+        const TextReader = ({ onClose, voiceCommand, setVoiceCommand }) => {
+            const [text, setText] = useState("");
+            const [isTesseractAvailable, setIsTesseractAvailable] = useState(false);
+            const [ocrStatus, setOcrStatus] = useState("Ready");
+            const inputRef = useRef(null);
+
+            useEffect(() => {
+                // Check if Tesseract is available globally
+                if (window.Tesseract && typeof window.Tesseract.recognize === 'function') {
+                    setIsTesseractAvailable(true);
+                    setOcrStatus("OCR Library loaded.");
+                } else {
+                    setIsTesseractAvailable(false);
+                    setOcrStatus("OCR Library (Tesseract.js) not available. Check HTML imports.");
+                    console.warn("Tesseract.js not found globally. Please ensure the script is loaded via HTML.");
+                }
+            }, []);
+            
+            const handleReadAloud = useCallback(() => {
+                speak(text || "No text to read.");
+                vibrate();
+            }, [text]);
+
+            useEffect(() => {
+                if (voiceCommand?.command === 'read') {
+                    handleReadAloud();
+                    setVoiceCommand(null);
+                }
+            }, [voiceCommand, setVoiceCommand, handleReadAloud]);
+
+
+            const handleFile = async (ev) => {
+                const Tesseract = window.Tesseract;
+                const file = ev.target.files?.[0];
+                if (!file) return;
+
+                const isText = file.type.startsWith("text/");
+                const isImage = file.type.startsWith("image/");
+
+                if (isText) {
+                    const r = new FileReader();
+                    r.onload = () => {
+                        setText(String(r.result || ""));
+                        speak("Text file loaded. Say read to start.");
+                        vibrate([30]);
+                        setOcrStatus("Text file loaded.");
+                    };
+                    r.readAsText(file);
+                } else if (isImage) {
+                    if (!isTesseractAvailable || !Tesseract) {
+                        setText("Tesseract.js library is not available for OCR.");
+                        speak("Tesseract library is not available for OCR.");
+                        return;
+                    }
+
+                    setText("Analyzing image for text...");
+                    speak("Analyzing image for text. This may take a moment.");
+                    vibrate([30]);
+                    
+                    try {
+                        const { data: { text } } = await Tesseract.recognize(
+                            file,
+                            'eng',
+                            { logger: (m) => { 
+                                if (m.status === 'recognizing text') {
+                                    setOcrStatus(`OCR in progress... ${Math.round(m.progress * 100)}%`);
+                                } else {
+                                    setOcrStatus(`Tesseract status: ${m.status}`);
+                                }
+                            } 
+                            }
+                        );
+
+                        if (text.trim()) {
+                            setText(text);
+                            speak("Text successfully extracted and ready to read.");
+                            setOcrStatus("OCR Complete. Text extracted.");
+                        } else {
+                            setText("No readable text found in the image.");
+                            speak("Could not find any readable text.");
+                            setOcrStatus("OCR Complete. No text found.");
+                        }
+                    } catch (e) {
+                        console.error("Tesseract OCR Error:", e);
+                        setText("Error during OCR analysis. Check console for details.");
+                        speak("There was an error processing the image for text.");
+                        setOcrStatus(`OCR Error: ${e.message}`);
+                    }
+                } else {
+                    setText("Unsupported file type. Please use .txt or an image file.");
+                    speak("Unsupported file type.");
+                    setOcrStatus("Unsupported file type.");
+                }
+            };
+
+            return (
+                <div>
+                    <p className="text-slate-300">
+                        You can upload a <span className="font-medium">.txt file or an image (OCR)</span> to test Read-Aloud or paste text below.
+                    </p>
+
+                    <div className="mt-4 grid grid-cols-1 gap-3">
+                        <input
+                            ref={inputRef}
+                            onChange={handleFile}
+                            accept=".txt,image/*"
+                            type="file"
+                            className="block w-full text-slate-200 bg-slate-800 rounded-lg p-3"
+                            aria-label="Upload text or image"
+                        />
+                        <textarea
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            placeholder="Or paste text here..."
+                            className="w-full min-h-[140px] bg-slate-800 text-slate-100 p-3 rounded-lg"
+                            aria-label="Text input for read aloud"
+                        />
+                        <div className="flex gap-3 mt-2">
+                            <button
+                                onClick={handleReadAloud}
+                                className="flex-1 px-4 py-3 rounded-lg bg-yellow-400 text-slate-900 font-bold"
+                                aria-label="Read aloud"
+                            >
+                                ▶ Read Aloud
+                            </button>
+                            <button
+                                onClick={() => {
+                                    // Use modern clipboard API if available, otherwise a warning/fallback.
+                                    if (navigator.clipboard) {
+                                        navigator.clipboard.writeText(text || "")
+                                            .then(() => {
+                                                speak("Text copied to clipboard.");
+                                                vibrate([40]);
+                                            })
+                                            .catch((err) => {
+                                                console.error('Could not copy text: ', err);
+                                                speak("Could not copy text.");
+                                            });
+                                    } else {
+                                        speak("Clipboard copy not supported.");
+                                    }
+                                }}
+                                className="flex-1 px-4 py-3 rounded-lg bg-slate-800 text-yellow-400 border border-slate-700"
+                                aria-label="Copy text"
+                            >
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div className="mt-4 bg-slate-800 p-3 rounded-lg text-sm text-slate-400">
+                        OCR Status: {ocrStatus}
+                    </div>
+                </div>
+            );
+        };
+
+        /* 2) Live Captions (SpeechRecognition) */
+        const LiveCaptions = ({ onClose, voiceCommand, setVoiceCommand }) => {
+            const [listening, setListening] = useState(false);
+            const [captions, setCaptions] = useState("");
+            const recognitionRef = useRef(null);
+            const isSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+            const toggle = useCallback(() => {
+                const rec = recognitionRef.current;
+                if (!rec) {
+                    speak("Speech recognition not available in this browser.");
+                    return;
+                }
+                if (listening) {
+                    try {
+                        rec.stop();
+                    } catch (e) {}
+                    setListening(false);
+                    speak("Stopped captions.");
+                    vibrate();
+                } else {
+                    try {
+                        setCaptions("");
+                        rec.start();
+                        setListening(true);
+                        speak("Started captions.");
+                        vibrate([40]);
+                    } catch (e) {
+                        speak("Unable to start speech recognition.");
+                        console.error("Start recognition error:", e);
+                    }
+                }
+            }, [listening]);
+
+            useEffect(() => {
+                if (!isSupported) {
+                    setCaptions("SpeechRecognition not supported in this browser.");
+                    return;
+                }
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const rec = new SpeechRecognition();
+                rec.continuous = true;
+                rec.interimResults = true;
+                rec.lang = "en-US";
+                rec.onresult = (ev) => {
+                    let interim = "";
+                    let final = "";
+                    for (let i = ev.resultIndex; i < ev.results.length; i++) {
+                        if (ev.results[i].isFinal) final += ev.results[i][0].transcript + " ";
+                        else interim += ev.results[i][0].transcript;
+                    }
+                    // Only update if there is new content to avoid flickering
+                    if (final || interim) {
+                         setCaptions((prev) => {
+                            // Split final text and interim text
+                            const finalParts = prev.split('\n');
+                            const currentFinalText = finalParts[0] || '';
+                            
+                            // Remove old interim text and append new final/interim text
+                            const newFinal = currentFinalText + final;
+                            const newCaptions = newFinal.trim() + (interim ? `\n(Listening: ${interim})` : "");
+                            return newCaptions;
+                        });
+                    }
+                };
+                rec.onerror = (event) => {
+                    console.error("Speech recognition error:", event.error);
+                    setListening(false);
+                    speak("Speech recognition error");
+                };
+                rec.onend = () => {
+                    if (listening) {
+                        // Attempt to restart if it ended unexpectedly while listening was supposed to be true
+                        console.log("Recognition ended. Restarting.");
+                        try {
+                            rec.start();
+                        } catch(e) {
+                            console.error("Failed to auto-restart recognition:", e);
+                            setListening(false);
+                        }
+                    }
+                }
+                recognitionRef.current = rec;
+                return () => {
+                    try {
+                        rec.stop();
+                    } catch (e) {}
+                };
+            }, [isSupported, listening]); // Added listening as dependency to support onend restart logic
+
+            useEffect(() => {
+                if (voiceCommand?.command === 'start_captions' && !listening) {
+                    toggle();
+                    setVoiceCommand(null);
+                } else if (voiceCommand?.command === 'stop_captions' && listening) {
+                    toggle();
+                    setVoiceCommand(null);
+                }
+            }, [voiceCommand, setVoiceCommand, toggle, listening]);
+
+            return (
+                <div>
+                    <p className="text-slate-300 mb-2">Live captions display below. Use the Start/Stop button — captions stay local to your browser.</p>
+                    <div className="bg-black rounded-lg p-4 min-h-[140px] overflow-auto">
+                        <pre className="whitespace-pre-wrap text-lg text-yellow-200">{captions || "No captions yet."}</pre>
+                    </div>
+                    <div className="flex gap-3 mt-4">
+                        <button
+                            onClick={toggle}
+                            className={`flex-1 px-4 py-3 rounded-lg font-bold ${listening ? "bg-red-600 text-white" : "bg-yellow-400 text-slate-900"}`}
+                            aria-pressed={listening}
+                            aria-label={listening ? "Stop captions (Voice command: Stop captions)" : "Start captions (Voice command: Start captions)"}
+                            disabled={!isSupported}
+                        >
+                            {listening ? "Stop Captions" : "Start Captions"}
+                        </button>
+                        <button
+                            onClick={() => {
+                                navigator.clipboard && navigator.clipboard.writeText(captions || "");
+                                speak("Transcript copied");
+                                vibrate();
+                            }}
+                            className="flex-1 px-4 py-3 rounded-lg bg-slate-800 text-yellow-400"
+                            aria-label="Copy transcript"
+                        >
+                            Copy Transcript
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // Mock function to simulate a successful API response
+        const mockAnalyzeScene = () => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve({
+                        text: "Mock Analysis (API Key Error Fallback): This appears to be a common scene. I can detect a wooden desk, a laptop, a coffee mug, and some papers. The laptop screen shows a code editor, suggesting the user is working. The scene is well-lit by overhead lighting."
+                    });
+                }, 1500); // Simulate network latency
+            });
+        };
+
+
+        /* 3) Object Describer (Gemini Vision API) */
+        const ObjectDescriber = ({ onClose, voiceCommand, setVoiceCommand }) => {
+            const videoRef = useRef(null);
+            const canvasRef = useRef(null);
+            const [analysis, setAnalysis] = useState("Awaiting camera stream.");
+            const [isStreaming, setIsStreaming] = useState(false);
+
+            // Access camera stream
+            useEffect(() => {
+                let mounted = true;
+                (async () => {
+                    if (!navigator.mediaDevices) return setAnalysis("Camera access not supported.");
+                    try {
+                        const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                        if (mounted && videoRef.current) {
+                            videoRef.current.srcObject = s;
+                            videoRef.current.onloadedmetadata = () => {
+                                videoRef.current.play();
+                                setIsStreaming(true);
+                                speak("Camera ready. Tap the button to analyze.");
+                            };
+                        }
+                    } catch (e) {
+                        setAnalysis("Camera access denied. Please enable camera permissions.");
+                        speak("Camera access denied.");
+                    }
+                })();
+                return () => {
+                    mounted = false;
+                    if (videoRef.current && videoRef.current.srcObject) {
+                        videoRef.current.srcObject.getTracks().forEach((t) => t.stop());
+                    }
+                };
+            }, []);
+            
+            const captureAndDescribe = useCallback(async () => {
+                const v = videoRef.current;
+                const c = canvasRef.current;
+
+                if (!v || !c || !v.videoWidth || !v.videoHeight) {
+                    speak("Camera stream is not ready.");
+                    setAnalysis("Camera stream is not ready. Please wait.");
+                    return;
+                }
+
+                // 1. Capture Base64 Image
+                c.width = v.videoWidth;
+                c.height = v.videoHeight;
+                const ctx = c.getContext("2d");
+                ctx.drawImage(v, 0, 0, c.width, c.height);
+                
+                const fullDataUrl = c.toDataURL("image/jpeg", 0.8);
+                const parts = fullDataUrl.split(';base64,');
+                if (parts.length !== 2) {
+                    setAnalysis("Error capturing image data.");
+                    speak("Error capturing image data.");
+                    return;
+                }
+                const [mimeTypePrefix, base64Data] = parts;
+                const mimeType = mimeTypePrefix.split(':')[1];
+
+                setAnalysis("Sending image to Gemini for analysis (may take a few seconds)...");
+                speak("Sending image for powerful description.");
+                vibrate([30]);
+
+                // 2. Prepare API Call
+                const userPrompt = "Describe this scene in detail, identifying all key objects and their spatial relationship. Provide a concise, helpful summary for an assisted user.";
+                // NOTE: Using a placeholder API key. This will likely trigger the 403 fallback.
+                const apiKey = "AIzaSyA7EKvO9rpX79RUU0vcTPny6nCJjAzu7zo"; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{
+                        role: "user",
+                        parts: [
+                            { text: userPrompt },
+                            {
+                                inlineData: {
+                                    mimeType: mimeType, 
+                                    data: base64Data
+                                }
+                            }
+                        ]
+                    }],
+                };
+
+                // 3. Execute with backoff and enhanced error reporting
+                let resultText = "Analysis failed or returned empty.";
+                let finalStatus = null; 
+                const maxRetries = 3;
+                let useFallback = false;
+
+                for (let attempt = 0; attempt < maxRetries; attempt++) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            finalStatus = response.status;
+                            const errorBody = await response.text();
+                            console.error(`Attempt ${attempt + 1}: API call failed with status ${response.status}. Response Body:`, errorBody);
+
+                            // CRITICAL: If 403 (Forbidden), stop and use fallback
+                            if (response.status === 403) {
+                                    useFallback = true;
+                                    throw new Error(`Critical API Error: Status ${response.status}. Using fallback.`);
+                            }
+                            
+                            if (response.status === 429 && attempt < maxRetries - 1) {
+                                throw new Error("Rate limit exceeded. Retrying...");
+                            }
+                            if (attempt === maxRetries - 1) {
+                                    resultText = `Permanent API Error: Status ${response.status}. Check console for details.`;
+                                    break;
+                            }
+
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                        if (text) {
+                            resultText = text;
+                            break; // Success
+                        }
+
+                    } catch (error) {
+                        if (useFallback) {
+                            break; 
+                        }
+                        console.error(`Attempt ${attempt + 1} failed:`, error);
+                        if (attempt < maxRetries - 1) {
+                            const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        } else {
+                            resultText = `Failed to communicate with the Gemini API after ${maxRetries} retries. Last HTTP Status: ${finalStatus || 'N/A'}. Check console for full error details.`;
+                        }
+                    }
+                }
+
+                // 4. Fallback or Update UI/TTS
+                if (useFallback) {
+                    setAnalysis("API Key Forbidden (403) error detected. Running mock analysis to preserve functionality...");
+                    const mockResult = await mockAnalyzeScene();
+                    resultText = mockResult.text;
+                }
+
+
+                setAnalysis(resultText);
+                speak(resultText);
+                vibrate([30]);
+            }, [isStreaming]);
+
+            useEffect(() => {
+                if (voiceCommand?.command === 'analyze_scene' && isStreaming) {
+                    captureAndDescribe();
+                    setVoiceCommand(null);
+                }
+            }, [voiceCommand, setVoiceCommand, captureAndDescribe, isStreaming]);
+
+
+            return (
+                <div>
+                    <div className="bg-black rounded-lg overflow-hidden">
+                        <video ref={videoRef} className="w-full h-56 object-cover bg-slate-800" playsInline muted />
+                    </div>
+                    {/* Canvas is used for processing the video frame, kept hidden */}
+                    <canvas ref={canvasRef} style={{ display: "none" }} /> 
+                    <div className="mt-4 flex gap-3">
+                        <button
+                            onClick={captureAndDescribe}
+                            className="flex-1 px-4 py-3 bg-yellow-400 text-slate-900 rounded-lg font-bold"
+                            aria-label="Analyze scene (Voice command: Analyze scene)"
+                            disabled={!isStreaming}
+                        >
+                            Analyze Scene (Gemini)
+                        </button>
+                        <button
+                            onClick={() => {
+                                speak("Switching camera not implemented in demo.");
+                                vibrate([20]);
+                            }}
+                            className="flex-1 px-4 py-3 bg-slate-800 text-yellow-400 rounded-lg"
+                            aria-label="Switch Camera"
+                        >
+                            Switch Camera
+                        </button>
+                    </div>
+                    <div className="mt-4 bg-slate-800 p-3 rounded-lg min-h-[80px]">
+                        <pre className="whitespace-pre-wrap text-slate-200">{analysis}</pre>
+                    </div>
+                </div>
+            );
+        };
+
+        /* 4) Task Helper (localStorage) */
+        const TaskHelper = ({ onClose, voiceCommand, setVoiceCommand }) => {
+            const [tasks, setTasks] = useState(() => {
+                try {
+                    return JSON.parse(localStorage.getItem("assistify_tasks") || "[]");
+                } catch {
+                    return [];
+                }
+            });
+            const [newTask, setNewTask] = useState("");
+            const inputRef = useRef(null);
+
+
+            useEffect(() => {
+                localStorage.setItem("assistify_tasks", JSON.stringify(tasks));
+            }, [tasks]);
+
+            const add = useCallback((text = newTask) => {
+                if (!text.trim()) return;
+                const t = { id: Date.now(), text: text.trim(), done: false };
+                setTasks((s) => [t, ...s]);
+                setNewTask("");
+                speak(`Task added: ${text}`);
+                vibrate([30]);
+            }, [newTask]);
+
+            const toggle = useCallback((id) => {
+                setTasks((s) => s.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+                vibrate([20]);
+            }, []);
+
+            const del = useCallback((id) => {
+                const taskToDelete = tasks.find(t => t.id === id);
+                setTasks((s) => s.filter((t) => t.id !== id));
+                speak(`Task deleted: ${taskToDelete?.text || "Unknown"}`);
+                vibrate([40]);
+            }, [tasks]);
+
+            // Voice Command Handler for Tasks
+            useEffect(() => {
+                if (!voiceCommand) return;
+
+                const commandText = voiceCommand.text.toLowerCase();
+                
+                if (commandText.startsWith('add task') || commandText.startsWith('new task')) {
+                    const taskText = commandText.replace(/^(add|new) task /i, '').trim();
+                    if (taskText) {
+                        add(taskText);
+                        setVoiceCommand(null);
+                    } else {
+                        speak("What task would you like to add?");
+                        // Focus the input for manual entry or wait for next command
+                        inputRef.current?.focus();
+                        setVoiceCommand(null); 
+                    }
+                } else if (commandText.startsWith('complete task') || commandText.startsWith('mark done')) {
+                    const taskIndexStr = commandText.replace(/^(complete task|mark done) number /i, '').trim();
+                    const index = parseInt(taskIndexStr, 10);
+                    if (!isNaN(index) && index > 0 && index <= tasks.length) {
+                        toggle(tasks[index - 1].id);
+                        speak(`Task number ${index} marked as done.`);
+                        setVoiceCommand(null);
+                    } else {
+                        speak("Please say 'Complete task number' followed by the task number on the list.");
+                        setVoiceCommand(null);
+                    }
+                } else if (commandText.startsWith('delete task')) {
+                     const taskIndexStr = commandText.replace(/^(delete task) number /i, '').trim();
+                    const index = parseInt(taskIndexStr, 10);
+                    if (!isNaN(index) && index > 0 && index <= tasks.length) {
+                        del(tasks[index - 1].id);
+                        speak(`Task number ${index} deleted.`);
+                        setVoiceCommand(null);
+                    } else {
+                        speak("Please say 'Delete task number' followed by the task number on the list.");
+                        setVoiceCommand(null);
+                    }
+                }
+            }, [voiceCommand, setVoiceCommand, add, toggle, del, tasks]);
+
+            return (
+                <div>
+                    <div className="flex gap-3">
+                        <input
+                            ref={inputRef}
+                            value={newTask}
+                            onKeyDown={(e) => { if (e.key === 'Enter') add(); }}
+                            onChange={(e) => setNewTask(e.target.value)}
+                            placeholder="Add task (or say 'Add task [task name]')"
+                            className="flex-1 p-3 rounded-lg bg-slate-800 text-slate-100"
+                            aria-label="New task"
+                        />
+                        <button onClick={() => add()} className="px-4 py-3 bg-yellow-400 rounded-lg font-bold">
+                            Add
+                        </button>
+                    </div>
+
+                    <ul className="mt-4 space-y-2">
+                        {tasks.length === 0 && <li className="text-slate-400">No tasks yet — add one.</li>}
+                        {tasks.map((t, index) => (
+                            <li key={t.id} className="flex items-center gap-3 bg-slate-800 p-3 rounded-lg">
+                                <div className="text-xl font-bold w-6 text-yellow-400" aria-hidden>{index + 1}.</div>
+                                <button
+                                    onClick={() => toggle(t.id)}
+                                    className={`w-10 h-10 rounded-md flex items-center justify-center ${t.done ? "bg-green-600" : "bg-slate-700"}`}
+                                    aria-pressed={t.done}
+                                    aria-label={t.done ? `Mark task ${index + 1}: ${t.text} as not done` : `Mark task ${index + 1}: ${t.text} as done. Voice command: Complete task number ${index + 1}`}
+                                >
+                                    {t.done ? "✓" : ""}
+                                </button>
+                                <div className="flex-1">
+                                    <div className={`text-lg ${t.done ? "line-through text-slate-400" : "text-slate-100"}`}>{t.text}</div>
+                                </div>
+                                <button onClick={() => del(t.id)} className="px-3 py-2 bg-red-600 rounded-md" aria-label={`Delete task ${index + 1}: ${t.text}. Voice command: Delete task number ${index + 1}`}>
+                                    Delete
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        };
+
+        /* 5) Emergency */
+        const Emergency = ({ onClose, voiceCommand, setVoiceCommand }) => {
+            const [location, setLocation] = useState(null);
+            const [status, setStatus] = useState("Ready");
+
+            const findLocation = useCallback(() => {
+                if (!navigator.geolocation) {
+                    setStatus("Geolocation not supported");
+                    speak("Geolocation not supported.");
+                    return;
+                }
+                setStatus("Locating...");
+                speak("Locating current position.");
+                vibrate([30]);
+
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+                        setStatus("Location found. Ready to send alert.");
+                        speak("Location found");
+                        vibrate([40]);
+                    },
+                    (err) => {
+                        setStatus(`Location error: ${err.message || 'Denied/Timeout'}`);
+                        speak("Unable to access location");
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            }, []);
+
+            const sendAlert = useCallback(async () => {
+                if (!location) {
+                    speak("Location not ready. Please tap Find Location first.");
+                    setStatus("Location not found. Please try again.");
+                    vibrate([100, 50, 100]);
+                    return;
+                }
+
+                const mapsLink = `https://maps.google.com/maps?q=${location.lat},${location.lng}`;
+                const message = `Emergency! My current location is ${location.lat}, ${location.lng}. View map: ${mapsLink}`;
+
+                setStatus("Alert simulated. Opening share options...");
+                speak("Emergency alert initiated.");
+                vibrate([500, 50, 500]); // Strong vibration for alert
+
+                // Use Web Share API for native sharing options on mobile
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'Assistify Emergency Location',
+                            text: message,
+                            url: mapsLink,
+                        });
+                        setStatus("Alert shared successfully via device options.");
+                    } catch (error) {
+                         if (error.name !== 'AbortError') { // User cancelled the share operation
+                            setStatus(`Sharing failed: ${error.name}. You can copy the link manually.`);
+                        } else {
+                            setStatus("Sharing cancelled by user. Link ready to copy.");
+                        }
+                    }
+                } else {
+                    setStatus("Web Share API not supported. Location is ready to copy.");
+                }
+            }, [location]);
+
+            // Voice Command Handler for Emergency
+            useEffect(() => {
+                if (!voiceCommand) return;
+                const commandText = voiceCommand.command;
+
+                if (commandText === 'find_location') {
+                    findLocation();
+                    setVoiceCommand(null);
+                } else if (commandText === 'send_alert') {
+                    sendAlert();
+                    setVoiceCommand(null);
+                }
+            }, [voiceCommand, setVoiceCommand, findLocation, sendAlert]);
+
+
+            return (
+                <div>
+                    <p className="text-slate-300">
+                        Use to find your location and share an emergency alert quickly.
+                    </p>
+                    <div className="mt-4 flex gap-3">
+                        <button
+                            onClick={findLocation}
+                            className="flex-1 px-4 py-3 bg-yellow-400 text-slate-900 rounded-lg font-bold"
+                            aria-label="Find current location (Voice command: Find location)"
+                        >
+                            📍 Find Location
+                        </button>
+                        <button
+                            onClick={sendAlert}
+                            className={`flex-1 px-4 py-3 ${location ? "bg-red-700 hover:bg-red-600" : "bg-red-900 opacity-50 cursor-not-allowed"} text-white rounded-lg font-bold`}
+                            disabled={!location}
+                            aria-label="Send emergency alert (Voice command: Send alert)"
+                        >
+                            🆘 Send Alert
+                        </button>
+                    </div>
+                    <div className="mt-4 bg-slate-800 p-3 rounded-lg min-h-[80px]">
+                        <div className="text-sm text-slate-400">Status: {status}</div>
+                        {location && (
+                            <div className="mt-2 text-slate-200">
+                                <span className="font-medium">Coordinates:</span> {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
+                                <a
+                                    href={`https://maps.google.com/maps?q=${location.lat},${location.lng}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-yellow-400 hover:underline ml-3"
+                                >
+                                    View on Map
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+
+        /* -----------------------
+            Voice Command Handler (Main Listener)
+        ----------------------- */
+        const VoiceCommandHandler = ({ setVoiceCommand, setIsListening, isListening, setActiveFeature, features }) => {
+            const recognitionRef = useRef(null);
+            const isSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+            useEffect(() => {
+                if (!isSupported) {
+                    speak("Voice commands are not supported in this browser.");
+                    setIsListening(false);
+                    return;
+                }
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const rec = new SpeechRecognition();
+                rec.continuous = false; // Only listen for one command at a time
+                rec.interimResults = false;
+                rec.lang = "en-US";
+
+                rec.onstart = () => {
+                    setIsListening(true);
+                    console.log("Voice Command Listener Active");
+                };
+
+                rec.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+                    console.log("Command heard:", transcript);
+
+                    // 1. Check for global navigation commands
+                    const featureMap = {
+                        'open reader': 'reader',
+                        'open text reader': 'reader',
+                        'open captions': 'captions',
+                        'open live captions': 'captions',
+                        'open describer': 'describer',
+                        'open object describer': 'describer',
+                        'open tasks': 'tasks',
+                        'open task helper': 'tasks',
+                        'open emergency': 'emergency',
+                        'close tool': 'close',
+                        'go back': 'close'
+                    };
+
+                    const matchedFeature = featureMap[transcript];
+
+                    if (matchedFeature && matchedFeature !== 'close') {
+                        const featureData = features.find(f => f.id === matchedFeature);
+                        if (featureData) {
+                            setActiveFeature(matchedFeature);
+                            speak(`Opening ${featureData.name}.`);
+                            vibrate([40]);
+                        }
+                    } else if (matchedFeature === 'close') {
+                        setActiveFeature(null);
+                        speak("Closing current tool.");
+                        vibrate([40]);
+                    } 
+                    
+                    // 2. Pass command to active feature for context-specific actions
+                    else if (transcript) {
+                        // Standardize and pass the command for component-level parsing
+                        let commandName = null;
+                        let text = transcript;
+
+                        if (transcript.includes('read aloud') || transcript.includes('read the text')) {
+                            commandName = 'read';
+                        } else if (transcript.includes('start captions')) {
+                            commandName = 'start_captions';
+                        } else if (transcript.includes('stop captions')) {
+                            commandName = 'stop_captions';
+                        } else if (transcript.includes('analyze scene') || transcript.includes('describe this')) {
+                            commandName = 'analyze_scene';
+                        } else if (transcript.includes('find location') || transcript.includes('get location')) {
+                            commandName = 'find_location';
+                        } else if (transcript.includes('send alert') || transcript.includes('emergency alert')) {
+                            commandName = 'send_alert';
+                        } else if (transcript.startsWith('add task') || transcript.startsWith('new task') || transcript.startsWith('complete task') || transcript.startsWith('delete task')) {
+                            // Complex task commands handled with full text
+                            setVoiceCommand({ command: 'task_helper', text: transcript });
+                            return; 
+                        }
+                        
+                        if (commandName) {
+                            setVoiceCommand({ command: commandName, text: text });
+                            // The component handles the speak/vibrate logic.
+                        } else {
+                            speak("Command not recognized. Try saying 'Open Reader' or 'Help'.");
+                        }
+                    }
+                };
+
+                rec.onerror = (event) => {
+                    console.error('Speech Recognition Error:', event.error);
+                    // if (event.error !== 'no-speech') {
+                    //     speak("Voice command error. Please try again.");
+                    // }
+                    setIsListening(false);
+                };
+                
+                rec.onend = () => {
+                    setIsListening(false);
+                };
+
+                recognitionRef.current = rec;
+            }, [isSupported, setIsListening, setActiveFeature, setVoiceCommand, features]);
+
+            const startListening = () => {
+                if (isListening) {
+                    try { recognitionRef.current?.stop(); } catch(e) {}
+                    setIsListening(false);
+                } else {
+                    try { recognitionRef.current?.start(); } catch(e) {
+                        speak("Unable to start voice command listener.");
+                        console.error("Start command error:", e);
+                    }
+                }
+            };
+            
+            // Keep the listener alive if a single command failed due to 'no-speech' or timeout.
+            // This is a common pattern for continuous, hands-free operation.
+            useEffect(() => {
+                 const rec = recognitionRef.current;
+                 if (isSupported && !isListening && rec) {
+                    const timeout = setTimeout(() => {
+                         try { 
+                             rec.start(); 
+                         } catch(e) { 
+                             console.log("Failed to auto-restart command listener:", e.name);
+                         }
+                    }, 500);
+                    return () => clearTimeout(timeout);
+                 }
+            }, [isListening, isSupported]);
+
+
+            return (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 p-3 bg-slate-900 border border-slate-700 rounded-full shadow-2xl z-40">
+                    <button
+                        onClick={startListening}
+                        className={`w-16 h-16 rounded-full flex items-center justify-center text-white transition-colors duration-300 ${isListening ? "bg-red-600 animate-pulse" : "bg-blue-600 hover:bg-blue-700"}`}
+                        aria-label={isListening ? "Stop Voice Commands" : "Start Voice Commands"}
+                        disabled={!isSupported}
+                    >
+                        {isListening ? (
+                            <span className="text-3xl">🛑</span>
+                        ) : (
+                            <span className="text-3xl">🎙️</span>
+                        )}
+                    </button>
+                    <div className="text-center text-xs mt-1 text-slate-400">
+                         {isListening ? "Listening..." : (isSupported ? "Tap to Speak" : "No Voice API")}
+                    </div>
+                </div>
+            );
+        };
+
+
+        /* -----------------------
+            Main App Component
+        ----------------------- */
+
+        const FeatureList = [
+            { id: "reader", name: "Text Reader (OCR)", icon: "📖", component: TextReader, description: "Reads text aloud from images or pasted text. Say 'Read' to start." },
+            { id: "captions", name: "Live Captions", icon: "💬", component: LiveCaptions, description: "Transcribes spoken audio into on-screen text. Say 'Start captions' or 'Stop captions'." },
+            { id: "describer", name: "Object Describer", icon: "👁️", component: ObjectDescriber, description: "Uses AI (Gemini) to describe your camera view. Say 'Analyze scene'." },
+            { id: "tasks", name: "Task Helper", icon: "✅", component: TaskHelper, description: "Simple task list with voice commands. Say 'Add task' or 'Complete task number 1'." },
+            { id: "emergency", name: "Emergency Location", icon: "🚨", component: Emergency, description: "Quick access to location and alert sharing. Say 'Find location' or 'Send alert'." }
+        ];
+
+        function App() {
+            const [activeFeature, setActiveFeature] = useState(null);
+            const [isListening, setIsListening] = useState(false);
+            // This state holds the command parsed by the global listener to be executed by the active feature
+            const [voiceCommand, setVoiceCommand] = useState(null); 
+
+            const ActiveComponent = useMemo(() => {
+                return FeatureList.find(f => f.id === activeFeature)?.component;
+            }, [activeFeature]);
+
+            const handleFeatureOpen = (id) => {
+                setActiveFeature(id);
+                const featureName = FeatureList.find(f => f.id === id)?.name;
+                speak(`Opening ${featureName}.`);
+                vibrate([30]);
+            };
+
+            const handleFeatureClose = () => {
+                setActiveFeature(null);
+                speak("Tool closed. Ready for next command.");
+                vibrate([30]);
+            }
+            
+            const handleHelp = () => {
+                if (activeFeature) {
+                    const currentFeature = FeatureList.find(f => f.id === activeFeature);
+                    speak(`${currentFeature.name} is currently open. The main voice command is: ${currentFeature.description.split('. Say')[1]?.replace(/'/g, "") || 'No specific voice command listed.'}`);
+                } else {
+                    speak("Main screen. Say 'Open' followed by the tool name, like 'Open Reader' or 'Open Captions'.");
+                }
+            }
+
+
+            return (
+                <div className="min-h-screen">
+                    <Header onHelp={handleHelp} />
+                    
+                    <main className="w-full max-w-5xl mx-auto p-4 pt-8">
+                        {activeFeature ? (
+                             <Modal 
+                                title={FeatureList.find(f => f.id === activeFeature)?.name || "Tool"} 
+                                onClose={handleFeatureClose}
+                             >
+                                {ActiveComponent && (
+                                    <ActiveComponent 
+                                        onClose={handleFeatureClose} 
+                                        voiceCommand={voiceCommand}
+                                        setVoiceCommand={setVoiceCommand}
+                                    />
+                                )}
+                            </Modal>
+                        ) : (
+                            <section aria-label="Accessibility Tools Grid">
+                                <h2 className="text-3xl font-bold text-slate-100 mb-6">Tools</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {FeatureList.map((f) => (
+                                        <button
+                                            key={f.id}
+                                            onClick={() => handleFeatureOpen(f.id)}
+                                            className="p-6 bg-slate-900 border border-slate-700 rounded-xl hover:border-yellow-400 transition-all text-left shadow-lg"
+                                            aria-label={`${f.name}. Click to open. Voice command: Open ${f.name.toLowerCase().replace(/ \(.+\)/g, '')}`}
+                                        >
+                                            <div className="text-5xl mb-3" aria-hidden>{f.icon}</div>
+                                            <h3 className="text-xl font-bold text-slate-100">{f.name}</h3>
+                                            <p className="text-sm text-slate-400 mt-1">{f.description.split('. Say')[0]}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="mt-12 p-4 bg-slate-800 rounded-xl text-slate-300">
+                                     <h3 className="font-bold text-yellow-400">Voice Quick Guide:</h3>
+                                     <ul className="list-disc ml-6 mt-2 text-sm">
+                                         <li>To open a tool: Say **"Open [Tool Name]"** (e.g., **"Open Reader"**).</li>
+                                         <li>To exit a tool: Say **"Close tool"** or **"Go back"**.</li>
+                                         <li>Inside a tool, use specific commands (e.g., **"Read"**, **"Analyze scene"**, **"Add task buy milk"**).</li>
+                                     </ul>
+                                </div>
+                            </section>
+                        )}
+                    </main>
+
+                    <VoiceCommandHandler 
+                        setVoiceCommand={setVoiceCommand} 
+                        setIsListening={setIsListening}
+                        isListening={isListening}
+                        setActiveFeature={setActiveFeature}
+                        features={FeatureList}
+                    />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+
+        // End of Babel script tag.
+    </script>
+</body>
+</html>
