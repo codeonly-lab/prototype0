@@ -49,18 +49,37 @@
 
         const Header = ({ onHelp }) => (
             <header className="w-full max-w-5xl mx-auto p-4 flex items-center justify-between bg-slate-900 rounded-b-2xl shadow-lg">
-                <div className="flex items-center gap-3">
-                    <div
-                        className="w-12 h-12 rounded-lg bg-yellow-400 flex items-center justify-center text-slate-900 text-xl font-bold"
-                        aria-hidden
+                
+                {/* START: Back Arrow Button and Logo/Title Group */}
+                <div className="flex items-center gap-4"> 
+                    {/* BACK ARROW BUTTON (Proper Arrow and Link) */}
+                    <a 
+                        href="https://codeonly-lab.github.io/prototype0/" 
+                        className="p-2 -ml-2 rounded-full text-yellow-400 hover:bg-slate-800 transition-colors" 
+                        aria-label="Go back to Prototype Home"
                     >
-                        A I
-                    </div>
-                    <div>
-                        <h1 className="text-2xl font-extrabold text-slate-100 leading-tight">Assistify</h1>
-                        <p className="text-sm text-slate-300">Independent accessibility toolkit — voice & camera friendly</p>
+                        {/* Back Arrow Icon SVG */}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                        </svg>
+                    </a>
+
+                    {/* Original Logo/Title Group */}
+                    <div className="flex items-center gap-3">
+                        <div
+                            className="w-12 h-12 rounded-lg bg-yellow-400 flex items-center justify-center text-slate-900 text-xl font-bold"
+                            aria-hidden
+                        >
+                            A I
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-extrabold text-slate-100 leading-tight">Assistify</h1>
+                            <p className="text-sm text-slate-300">Independent accessibility toolkit — voice & camera friendly</p>
+                        </div>
                     </div>
                 </div>
+                {/* END: Back Arrow Button and Logo/Title Group */}
+
                 <div className="flex items-center gap-2">
                     <button
                         onClick={() => {
@@ -232,8 +251,13 @@
                         />
                         <textarea
                             value={text}
+                            onKeyDown={(e) => { 
+                                if (e.key === 'Enter' && e.ctrlKey) {
+                                    handleReadAloud();
+                                }
+                            }}
                             onChange={(e) => setText(e.target.value)}
-                            placeholder="Or paste text here..."
+                            placeholder="Or paste text here... (Ctrl+Enter to Read Aloud)"
                             className="w-full min-h-[140px] bg-slate-800 text-slate-100 p-3 rounded-lg"
                             aria-label="Text input for read aloud"
                         />
@@ -254,7 +278,7 @@
                                                 vibrate([40]);
                                             })
                                             .catch((err) => {
-                                                console.error('Could not copy text: ', err);
+                                                console.error('Could copy text: ', err);
                                                 speak("Could not copy text.");
                                             });
                                     } else {
@@ -530,7 +554,7 @@
               
                 const userPrompt = "Describe this scene in detail, identifying all key objects and their spatial relationship. Provide a concise, helpful summary for an assisted user.";
               
-                const apiKey = "AIzaSyA7EKvO9rpX79RUU0vcTPny6nCJjAzu7zo"; 
+                const apiKey = "AIzaSyC_i364x1yzU7iGaLEGUHnubLP58-vbDnY"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
                 const payload = {
@@ -820,7 +844,7 @@
                     return;
                 }
 
-                const mapsLink = `https://maps.google.com/maps?q=${location.lat},${location.lng}`;
+                const mapsLink = `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`;
                 const message = `Emergency! My current location is ${location.lat}, ${location.lng}. View map: ${mapsLink}`;
 
                 setStatus("Alert simulated. Opening share options...");
@@ -888,7 +912,7 @@
                             <div className="mt-2 text-slate-200">
                                 <span className="font-medium">Coordinates:</span> {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
                                 <a
-                                    href={`https://maps.google.com/maps?q=${location.lat},${location.lng}`}
+                                    href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-yellow-400 hover:underline ml-3"
