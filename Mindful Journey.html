@@ -96,7 +96,8 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 5px;
+            /* FIX: Removed margin-bottom: 5px; to ensure vertical centering */
+            margin-bottom: 0; 
             display: flex;
             align-items: center;
             gap: 8px;
@@ -109,7 +110,7 @@
         .header-left {
             display: flex;
             align-items: center;
-            flex-grow: 1; /* Allows it to take up available space */
+            /* FIX: Removed flex-grow: 1; to ensure the logo doesn't push the button unexpectedly */
         }
         
         .header-right {
