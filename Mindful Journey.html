@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1090,8 +1091,7 @@
                 It sounds like you may be going through a difficult time. Please reach out for immediate support.
             </p>
             <p class="safety-message">
-                Call or text 988 anytime in the US and Canada to connect with the Suicide & Crisis Lifeline. It is free, confidential, and available 24/7.
-            </p>
+Call 9152987821 - Suicide Hotline, India or reach out at <a href="https://icallhelpline.org/"> here </a>            </p>
             <button class="safety-button" id="closeSafetyModal">I Will Reach Out</button>
         </div>
     </div>
@@ -1100,7 +1100,7 @@
 
     <script>
         const quests = { 
-            1: { title: "Reach Out to Someone", description: "Connecting with others can help you feel less alone and more supported.", content: ` <p>Send a message, make a call, or talk to someone in person.</p> <p>Examples:</p> <ul> <li>Text a friend you haven't spoken to in a while.</li> <li>Call a family member.</li> <li>Contact a support line or therapist.</li> </ul> <div class="feedback-message info" id="safetyNote">If you are in immediate crisis, please call or text 988 (US/Canada Suicide & Crisis Lifeline) or your local emergency number.</div> `, actions: ` <button class="modal-button" id="completeQuest1">I Reached Out</button> <button class="modal-button secondary" id="skipQuest1">Skip for Now</button> ` }, 
+            1: { title: "Reach Out to Someone", description: "Connecting with others can help you feel less alone and more supported.", content: ` <p>Send a message, make a call, or talk to someone in person.</p> <p>Examples:</p> <ul> <li>Text a friend you haven't spoken to in a while.</li> <li>Call a family member.</li> <li>Contact a support line or therapist.</li> </ul> <div class="feedback-message info" id="safetyNote">If you are in immediate crisis, please call or text 9152987821 (India Suicide & Crisis Lifeline) or your local emergency number.</div> `, actions: ` <button class="modal-button" id="completeQuest1">I Reached Out</button> <button class="modal-button secondary" id="skipQuest1">Skip for Now</button> ` }, 
             2: { title: "Daily Mood Check-In", description: "Tracking your mood can help you identify patterns and triggers for your emotions.", content: ` <p>Select the option that best represents how you feel right now:</p> <div class="mood-options"> <div class="mood-option" data-mood="very-sad"> <span class="mood-emoji">😞</span> <div>Very Sad</div> </div> <div class="mood-option" data-mood="sad"> <span class="mood-emoji">🙁</span> <div>Sad</div> </div> <div class="mood-option" data-mood="neutral"> <span class="mood-emoji">😐</span> <div>Neutral</div> </div> <div class="mood-option" data-mood="happy"> <span class="mood-emoji">🙂</span> <div>Happy</div> </div> <div class="mood-option" data-mood="very-happy"> <span class="mood-emoji">😊</span> <div>Very Happy</div> </div> </div> <div class="feedback-message" id="moodFeedback"></div> <p>Optional: Write a few words about why you feel this way:</p> <textarea class="modal-textarea" id="moodNotes" placeholder="Feeling overwhelmed, but also grateful for my coffee."></textarea> `, actions: ` <button class="modal-button" id="saveMood">Save Mood</button> <button class="modal-button secondary" id="skipQuest2">Skip for Now</button> ` }, 
             3: { title: "Breathing Exercise", description: "A simple 4-7-8 breathing exercise to calm your nervous system.", content: ` <div class="breathing-container"> <div class="breathing-circle" id="breathingCircle"> <span class="breathing-text" id="breathingText">Breathe In</span> </div> <p>Inhale as the circle expands, exhale as it contracts.</p> </div> `, actions: ` <button class="modal-button" id="startBreathing">Start Exercise</button> <button class="modal-button secondary" id="skipQuest3">Skip for Now</button> <button class="modal-button" id="completeQuest3" style="display:none;">Complete Exercise</button> ` }, 
             4: { title: "Gratitude Note", description: "Practicing gratitude can shift your focus to positive aspects of your life.", content: ` <p>Write down one thing you're grateful for today. It can be something small, like a sunny day or a good meal.</p> <div class="feedback-message" id="gratitudeFeedback"></div> <textarea class="modal-textarea" id="gratitudeNote" placeholder="I am grateful for the sunny weather today."></textarea> `, actions: ` <button class="modal-button" id="saveGratitude">Save Note</button> <button class="modal-button secondary" id="skipQuest4">Skip for Now</button> ` }, 
@@ -1765,7 +1765,7 @@
 
         function stopConfetti() {
             if (confettiInterval) {
-                clearInterval(confettiInterval);
+                clearInterval(confettiInterval)
                 confettiInterval = null;
             }
             if (confettiContext) {
@@ -1775,4 +1775,3 @@
     </script>
 </body>
 </html>
-7
