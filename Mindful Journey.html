@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,35 +71,12 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        
-        
-        .back-button {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-right: 20px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .back-button:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            transform: scale(1.05);
-        }
 
         .logo {
             font-family: 'Montserrat', sans-serif;
             font-size: 20px;
             font-weight: 600;
-        
-            margin-bottom: 0; 
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -107,12 +86,6 @@
             color: var(--light-accent);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-        
-        }
-        
         .header-right {
             display: flex;
             align-items: center;
@@ -351,6 +324,7 @@
             background-color: var(--success-color);
         }
 
+        
         .modal {
             display: none;
             position: fixed;
@@ -898,12 +872,7 @@
 <body>
     <header>
         <div class="container header-content">
-            <div class="header-left">
-                <a href="https://codeonly-lab.github.io/prototype0/" class="back-button" aria-label="Go back to Prototype Home">
-                    <i class="fas fa-arrow-left"></i> Home
-                </a>
-                <div class="logo"><i class="fas fa-tree"></i> Mindful Journey</div>
-            </div>
+            <div class="logo"><i class="fas fa-tree"></i> Mindful Journey</div>
             <div class="header-right">
                 <div class="progress-container">
                     <span class="progress-text" id="progressText">0/10</span>
@@ -1341,8 +1310,8 @@
             'overdose', 
             'take pills', 
             'jump off', 
+            'die',
             'hang myself'
-            'die'
         ];
 
         function showSafetyScreen() {
@@ -1630,7 +1599,6 @@
         function completeQuest(questId) {
             if (!completedQuests.includes(questId)) {
                 completedQuests.push(questId);
-                completedQuests.sort((a, b) => a - b); 
                 localStorage.setItem('completedQuests', JSON.stringify(completedQuests));
                 updateProgress();
                 updateQuestCards();
@@ -2048,5 +2016,3 @@
     </script>
 </body>
 </html>
-
-
